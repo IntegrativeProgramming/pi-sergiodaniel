@@ -23,7 +23,9 @@ client_id = '2e6a6b883a174b3693a4c0a335558f30'
 client_secret = 'a2fbd32563c04123a3515c45951206ca'
 
 
-redirect_uri = 'http://127.0.0.1:8000/playlists/callback'
+#redirect_uri = 'http://127.0.0.1:8000/playlists/callback'
+
+redirect_uri = 'https://example.com/callback'
 redirect_uri_genius = 'http://127.0.0.1:8000/playlists/callback_genius'
 redirect_uri_instagram = 'http://127.0.0.1:8000/playlists/callback_instagram'
 redirect_uri_whatsapp = 'http://127.0.0.1:8000/playlists/callback_whatsapp'
@@ -48,6 +50,10 @@ def signup_view(request):
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+def _randomString(length):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(length))
 
 
 def index(request):
@@ -84,4 +90,83 @@ def index(request):
 
     login_form = LoginForm()
     signup_form = SignupForm()
+    if request.user.is_authenticated:
+        return redirect('login_spotify')
+    else:
+        context = {'login_form': login_form, 'signup_form': signup_form, 'loginError1': login_error1,
+                   'loginError2': login_error2, 'errorType': error_type}
+        return render(request, 'playlists/login_content.html', context)
 
+
+
+def login_spotify(request):
+
+    state = _randomString(16)
+
+    scope = 'user-read-private user-read-email playlist-read-private playlist-modify-public playlist-modify-private'
+    query_string = {
+        'response_type': 'code',
+        'client_id': client_id,
+        'scope': scope,
+        'redirect_uri': redirect_uri,
+        'state': state
+    }
+
+    response = redirect('https://accounts.spotify.com/authorize?' + urllib.parse.urlencode(query_string))
+    response.set_cookie('stateKey', state)
+
+    return response
+
+
+def callback(request):
+
+    code = request.GET['code']
+    state = request.GET['state']
+    storedState = None
+
+    if request.COOKIES:
+        storedState = request.COOKIES['stateKey']
+
+    if state is None or state != storedState:
+        return HttpResponseServerError
+    else:
+        request.COOKIES.clear()
+
+        auxString = '{}:{}'.format(client_id, client_secret)
+        preparedString = base64.b64encode(auxString.encode()).decode()
+
+        url = 'https://accounts.spotify.com/api/token'
+
+        form = {
+            'code': code,
+            'redirect_uri': redirect_uri,
+            'grant_type': 'authorization_code',
+        }
+
+        headers = {
+            'Authorization': 'Basic {}'.format(preparedString)
+        }
+
+        r = requests.post(url, data=form, headers=headers)
+
+        if r.status_code == 200:
+
+            access_token = r.json()['access_token']
+            refresh_token = r.json()['refresh_token']
+
+            headers = {
+                'Authorization': 'Bearer {}'.format(access_token)
+            }
+
+            r2 = requests.get('https://api.spotify.com/v1/me', headers=headers)
+
+            if r2.status_code == 200:
+
+                request.session['user_id'] = r2.json()['id']
+                request.session['access_token'] = access_token
+                request.session['refresh_token'] = refresh_token
+                return redirect('home')
+            else:
+                return HttpResponseServerError
+        else:
+            return HttpResponseServerError
