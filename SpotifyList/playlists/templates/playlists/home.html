@@ -1,14 +1,44 @@
-<!doctype html>
-<html lang="es">
+{% extends "playlists/index.html" %}
 
-{% load static %}
+{% block content %}
 
-<head>
+    <table class="specialTable">
+        <tr class="filaSpecialTable">
+            <td>
+                <a class="botonAnadirPlaylist" href={% url 'add_playlist' %}>Añadir Playlist</a>
+            </td>
 
-    <title>Home</title>
+            <td>
+                <form class="flexsearch--form" method="post" action={% url "show_playlists" %}>
+                    {% csrf_token %}
+                    <div class="flexsearch--input-wrapper" >
+                        <input class="flexsearch--input" type="text" name="playlistName" placeholder="Buscar Playlist en Spotify">
+                    </div>
+                    <input class="flexsearch--submit" type="submit"  value="&#10140;">
+                 </form>
+            </td>
+        </tr>
+    </table>
 
-</head>
+
+    <div class="divTable">
+         <table class="table">
+            <tr class="cabeceraTabla">
+                <td align="center">Nombre playlist</td>
+                <td align="center">Número de canciones</td>
+                <td align="center">¿Pública?</td>
+            </tr>
+            {% for x in array_table_elements %}
+                <tr class="filasTabla">
+                    <td class="name" align="center">
+                        <a href="{% url 'view_playlist_info' playlistId=x.playlist_id playlistName=x.name %}">{{ x.name }}</a>
+                    </td>
+                    <td align="center">{{ x.total }}</td>
+                    <td align="center">{{ x.public }}</td>
+                </tr>
+            {% endfor %}
+         </table>
+    </div>
 
 
-<body>
-    Home de pruebas
+{% endblock %}
