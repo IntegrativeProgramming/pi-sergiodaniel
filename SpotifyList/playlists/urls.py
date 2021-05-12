@@ -23,5 +23,5 @@ urlpatterns = [
     url(r'^logout_view/$', views.logout_view, name='logout_view'),
     url(r'^login_spotify/$', views.login_spotify, name='login_spotify'),
     url(r'^callback/$', views.callback, name='callback'),
-    #url(r'^home/$', views.home, name='home'),
+    url(r'^home/$', views.home, name='home'),
 ]

@@ -22,13 +22,11 @@ import pandas as pd
 client_id = '2e6a6b883a174b3693a4c0a335558f30'
 client_secret = 'a2fbd32563c04123a3515c45951206ca'
 
-
-#redirect_uri = 'http://127.0.0.1:8000/playlists/callback'
-
-redirect_uri = 'https://example.com/callback'
+redirect_uri = 'http://127.0.0.1:8000/playlists/callback'
 redirect_uri_genius = 'http://127.0.0.1:8000/playlists/callback_genius'
 redirect_uri_instagram = 'http://127.0.0.1:8000/playlists/callback_instagram'
 redirect_uri_whatsapp = 'http://127.0.0.1:8000/playlists/callback_whatsapp'
+
 
 def signup_view(request):
     if request.method == 'POST':
@@ -170,3 +168,38 @@ def callback(request):
                 return HttpResponseServerError
         else:
             return HttpResponseServerError
+
+
+def home(request):
+
+        try:
+            del request.session["ownedPlaylistName"]
+            del request.session['track_name']
+            del request.session['playlistName']
+        except:
+            pass
+
+        headers = {
+            'Authorization': 'Bearer {}'.format(request.session['access_token'])
+        }
+
+        r = requests.get('https://api.spotify.com/v1/me/playlists', headers=headers)
+
+        if r.status_code == 200:
+            array_table_elements = []
+
+            data = r.json()
+            for items in data:
+                if items == 'items':
+                    for playlist in data[items]:
+                        array_table_elements.append({'name': playlist['name'], 'total': playlist['tracks']['total'],
+                                                    'public': playlist['public'], 'playlist_id': playlist['id']})
+                    break
+
+            context = {
+                'array_table_elements': array_table_elements
+            }
+
+            return render(request, 'playlists/home.html', context)
+        else:
+            return HttpResponseForbidden
