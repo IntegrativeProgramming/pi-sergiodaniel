@@ -163,8 +163,7 @@ def callback(request):
                 request.session['user_id'] = r2.json()['id']
                 request.session['access_token'] = access_token
                 request.session['refresh_token'] = refresh_token
-                #return redirect('home')
-                return HttpResponse('HOME')
+                return redirect('home')
             else:
                 return HttpResponseServerError
         else:
@@ -172,13 +171,13 @@ def callback(request):
 
 
 def home(request):
-
-        try:
-            del request.session["ownedPlaylistName"]
-            del request.session['track_name']
-            del request.session['playlistName']
-        except:
-            pass
+        
+        #try:
+        #    del request.session["ownedPlaylistName"]
+        #    del request.session['track_name']
+        #    del request.session['playlistName']
+        #except:
+        #    pass
 
         headers = {
             'Authorization': 'Bearer {}'.format(request.session['access_token'])
@@ -187,18 +186,18 @@ def home(request):
         r = requests.get('https://api.spotify.com/v1/me/playlists', headers=headers)
 
         if r.status_code == 200:
-            array_table_elements = []
+            playlists = []
 
             data = r.json()
             for items in data:
                 if items == 'items':
                     for playlist in data[items]:
-                        array_table_elements.append({'name': playlist['name'], 'total': playlist['tracks']['total'],
+                        playlists.append({'name': playlist['name'], 'total': playlist['tracks']['total'],
                                                     'public': playlist['public'], 'playlist_id': playlist['id']})
                     break
 
             context = {
-                'array_table_elements': array_table_elements
+                'array_table_elements': playlists
             }
 
             return render(request, 'playlists/home.html', context)

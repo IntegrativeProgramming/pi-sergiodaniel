@@ -1,18 +1,9 @@
-<!doctype html>
-<html lang="es">
+{% extends "playlists/index.html" %}
 
 {% load static %}
 {% load crispy_forms_tags %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href={% static "playlists/css/style.css" %}>
-    <script src="{% static "playlists/javascript/javascript.js"%}"></script>
-    <title>LOGIN</title>
-
-</head>
+{% block content %}
 
 <body>
 
@@ -38,9 +29,10 @@
             {% endif %}
 
             <!-- Modal -->
-            <input id="signin" type="radio" name="tab" checked="checked"/>
-            <input id="register" type="radio" name="tab"/>
+            <!--
             <div class="container">
+                <input type="radio" name="tab" id="signin" checked="checked"/>
+                <input type="radio" name="tab" id="register"/>
                 <div class="pages">
                   <div class="page">
                     <div role="tabpanel" class="tab-pane active" id="loginTab">
@@ -54,13 +46,34 @@
                   </div>
                 </div>
                 <div class="tabs" role="tablist">
-                    <a href="#loginTab" aria-controls="loginTab" role="tab" data-toggle="tab">Login</a>
-                    <a href="#signupTab" aria-controls="signupTab" role="tab" data-toggle="tab">Registrarse</a>
+                    <a class="tab" href="#loginTab" aria-controls="loginTab" role="tab" data-toggle="tab" for="register">Iniciar sesión</a>
+                    <a class="tab" href="#signupTab" aria-controls="signupTab" role="tab" data-toggle="tab" for="register">Registrarse</a>
+                </div>
+              </div> -->
+
+              <div class="container">
+                <input type="radio" name="tab" id="signin" checked="checked"/>
+                <input type="radio" name="tab" id="register"/>
+                <div class="pages">
+                  <div class="page">
+                    <p>{% crispy login_form login_form.helper %}</p>
+                  </div>
+                  <div class="page signup">
+                    <p>{% crispy signup_form signup_form.helper %}</p>
+                  </div>
+                </div>
+                <div class="tabs">
+                  <label class="tab" for="signin">
+                    <div class="text">Sign In</div>
+                  </label>
+                  <label class="tab" for="register">
+                    <div class="text">Register</div>
+                  </label>
                 </div>
               </div>
-        </div>
+
+        </div> 
     </div>
 </body>
 
-</html>
-
+{% endblock%}
