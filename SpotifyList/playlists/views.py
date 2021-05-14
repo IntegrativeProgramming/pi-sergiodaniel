@@ -163,7 +163,8 @@ def callback(request):
                 request.session['user_id'] = r2.json()['id']
                 request.session['access_token'] = access_token
                 request.session['refresh_token'] = refresh_token
-                return redirect('home')
+                #return redirect('home')
+                return HttpResponse('HOME')
             else:
                 return HttpResponseServerError
         else:

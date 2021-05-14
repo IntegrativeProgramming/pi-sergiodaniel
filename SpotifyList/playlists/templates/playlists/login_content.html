@@ -2,51 +2,19 @@
 <html lang="es">
 
 {% load static %}
+{% load crispy_forms_tags %}
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="" />
-    <meta name="description" content="">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-
-    <!-- Custom styles -->
-    <link rel="stylesheet" href={% static "miSpotify/css/style.css" %}>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:700|Roboto" rel="stylesheet">
-
-    <!-- Ionic icons -->
-    <link href="https://unpkg.com/ionicons@4.2.0/dist/css/ionicons.min.css" rel="stylesheet">
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href={% static "miSpotify/images/web.PNG" %} />
-
-    <!--PROBANDO LOGIN USUARIOS-->
-
-    <link href="{% static "miSpotify/vendor/bootstrap/css/bootstrap.min.css"%}" rel="stylesheet">
-    <link href="{% static "miSpotify/css/1-col-portfolio.css"%}" rel="stylesheet">
-    <script src="{% static "miSpotify/vendor/jquery/jquery.min.js"%}"></script>
-    <script src="{% static "miSpotify/vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
-    <script src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v4.1.0.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-
-    <title>Practica PI</title>
+    <link rel="stylesheet" href={% static "playlists/css/style.css" %}>
+    <script src="{% static "playlists/javascript/javascript.js"%}"></script>
+    <title>LOGIN</title>
 
 </head>
 
 <body>
-
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="iconoInicio" style="margin-left: 450px" ><img src={% static "miSpotify/images/logo.PNG" %} id="logo" class="img-fluid" alt=""></a>
-        </div>
-    </nav>
 
     <div id="bloquePrincipal">
 
@@ -70,62 +38,29 @@
             {% endif %}
 
             <!-- Modal -->
-            <div>
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div role="tabpanel">
-                                <!-- Nav tabs -->
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active" style="margin-left: 140px">
-                                        <a href="#loginTab" aria-controls="loginTab" role="tab" data-toggle="tab">Login</a>
-                                    </li>
-                                    <li role="presentation" style="margin-left: 20px ">
-                                        <a href="#signupTab" aria-controls="signupTab" role="tab" data-toggle="tab">Registrarse</a>
-                                    </li>
-                                </ul>
-                                <!-- Tab panes -->
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="loginTab">
-                                        <p>{% load crispy_forms_tags %} {% crispy login_form login_form.helper %}</p>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="signupTab">
-                                        <p>{% load crispy_forms_tags %} {% crispy signup_form signup_form.helper %}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <input id="signin" type="radio" name="tab" checked="checked"/>
+            <input id="register" type="radio" name="tab"/>
+            <div class="container">
+                <div class="pages">
+                  <div class="page">
+                    <div role="tabpanel" class="tab-pane active" id="loginTab">
+                        <p>{% crispy login_form login_form.helper %}</p>
                     </div>
+                  </div>
+                  <div class="page signup">
+                    <div role="tabpanel" class="tab-pane" id="signupTab">
+                        <p>{% crispy signup_form signup_form.helper %}</p>
+                    </div>
+                  </div>
                 </div>
-            </div>
+                <div class="tabs" role="tablist">
+                    <a href="#loginTab" aria-controls="loginTab" role="tab" data-toggle="tab">Login</a>
+                    <a href="#signupTab" aria-controls="signupTab" role="tab" data-toggle="tab">Registrarse</a>
+                </div>
+              </div>
         </div>
     </div>
 </body>
-
-
-<footer>
-    <section id="footer">
-        <div class="container">
-            <div class="heading-wrapper" style="margin-top: 30px">
-                <p>PRÁCTICA DE PROGRAMACIÓN INTEGRATIVA CURSO 2018-2019</p>
-            </div>
-            <div class="row topmargin-lg">
-                <div class="col-md-4">
-                    <small>UNIVERSIDAD DE A CORUÑA</small>
-                </div>
-                <div class="col-md-4">
-                    <a><i class="icon ion-logo-instagram"></i></a>
-                    <a><i class="icon ion-logo-linkedin"></i></a>
-                    <a><i class="icon ion-logo-facebook"></i></a>
-
-                </div>
-                <div class="col-md-4">
-                    <small>FACULTAD DE INFORMÁTICA</small>
-                </div>
-            </div>
-        </div>
-    </section>
-</footer>
 
 </html>
 
