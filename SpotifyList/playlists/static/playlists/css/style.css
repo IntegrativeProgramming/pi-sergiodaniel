@@ -496,7 +496,7 @@ html, body {
   
   .container {
     min-height: 550px;
-    max-width: 750px;
+    max-width: 600px;
     margin: 40px auto;
     border-radius: 2px;
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
@@ -586,7 +586,7 @@ html, body {
     color: white;
   }
   .tabs .tab .text {
-    font-size: 14px;
+    font-size: 30px;
     transform: scale(1);
     transition: all 0.2s;
     color: white;

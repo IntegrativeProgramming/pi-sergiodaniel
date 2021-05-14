@@ -12,18 +12,18 @@
         <div class="contenido">
             {% if loginError1 != "" and loginError2 != "" and errorType == "login_error" %}
 
-                <h2>Ha habido un error en el login.</h2>
-                <h2>¡Inténtelo de nuevo!</h2>
+                <h2 style="color:White;">Ha ocurrido un error al iniciar sesión.</h2>
+                <h2 style="color:White;">Introduzca el usuario y contraseña de forma correcta.</h2>
 
             {% elif loginError1 != "" and loginError2 != "" and errorType == "register_error" %}
 
-                <h2>Ha habido un error en el registro.</h2>
-                <h2>¡Inténtelo de nuevo!</h2>
+                <h2 style="color:White;">Ha ocurrido un error al registrarse.</h2>
+                <h2 style="color:White;">Revise las instrucciones para registrase de forma correcta.</h2>
 
             {% else %}
 
                 <div class="divLogin">
-                     <h1>¡Bienvenido! Inicie sesión</h1>
+                     <h1>La mejor APP musical</h1>
                 </div>
 
             {% endif %}
@@ -64,10 +64,10 @@
                 </div>
                 <div class="tabs">
                   <label class="tab" for="signin">
-                    <div class="text">Sign In</div>
+                    <div class="text">Iniciar sesión</div>
                   </label>
                   <label class="tab" for="register">
-                    <div class="text">Register</div>
+                    <div class="text">Registrarse</div>
                   </label>
                 </div>
               </div>
