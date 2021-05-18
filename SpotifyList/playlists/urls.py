@@ -24,4 +24,8 @@ urlpatterns = [
     url(r'^login_spotify/$', views.login_spotify, name='login_spotify'),
     url(r'^callback/$', views.callback, name='callback'),
     url(r'^home/$', views.home, name='home'),
+    url(r'^add_playlist/$', views.add_playlist, name='add_playlist'),
+    url(r'^show_playlists/$', views.show_playlists, name='show_playlists'),
+    url(r'^view_playlist_info/(?P<playlistId>\w+)/(?P<playlistName>.*)/$', views.view_playlist_info, name='view_playlist_info'),
+
 ]

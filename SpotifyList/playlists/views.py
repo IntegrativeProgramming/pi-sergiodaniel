@@ -203,3 +203,12 @@ def home(request):
             return render(request, 'playlists/home.html', context)
         else:
             return HttpResponseForbidden
+
+def add_playlist(request):
+    print("add playlist mock")
+
+def show_playlists(request):
+    print("show playlists mock")
+
+def view_playlist_info(request):
+    print("view playlist mock")

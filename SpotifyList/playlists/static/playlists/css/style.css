@@ -7,8 +7,9 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: flex;
   flex-wrap: wrap;
   padding-left: 0;
-  margin-bottom: 0;
+  margin: 0;
   list-style: none;
+  border-bottom: none;
 }
 
 .nav-link {
@@ -120,7 +121,7 @@ div#nav-container {
   padding-top: 0.3125rem;
   padding-bottom: 0.3125rem;
   margin-right: 1rem;
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   line-height: inherit;
   white-space: nowrap;
 }
@@ -128,6 +129,7 @@ div#nav-container {
   text-decoration: none;
 }
 .divLogin {
+  margin: 0%;
   text-align: center;
   color: white;
 }
@@ -492,6 +494,7 @@ html, body {
     margin: 0px;
     font-family: "Raleway", sans-serif;
     height: 100%;
+    margin: 0px;
   }
   
   .container {
@@ -590,6 +593,7 @@ html, body {
     transform: scale(1);
     transition: all 0.2s;
     color: white;
+    background-color: #5D708A;
   }
   
   input[type=radio] {

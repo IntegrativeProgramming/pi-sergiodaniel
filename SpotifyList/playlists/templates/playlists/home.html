@@ -1,12 +1,12 @@
 {% extends "playlists/index.html" %}
 
 {% block content %}
-
+<!--
     <table class="specialTable">
         <tr class="filaSpecialTable">
             <td>
                 <a class="botonAnadirPlaylist" href={% url 'add_playlist' %}>Añadir Playlist</a>
-            </td>
+            </td> 
 
             <td>
                 <form class="flexsearch--form" method="post" action={% url "show_playlists" %}>
@@ -19,7 +19,7 @@
             </td>
         </tr>
     </table>
-
+-->
 
     <div class="divTable">
          <table class="table">
@@ -31,7 +31,8 @@
             {% for x in array_table_elements %}
                 <tr class="filasTabla">
                     <td class="name" align="center">
-                        <a href="{% url 'view_playlist_info' playlistId=x.playlist_id playlistName=x.name %}">{{ x.name }}</a>
+                        <!--this href goes in the a below: href="{% url 'view_playlist_info' playlistId=x.playlist_id playlistName=x.name %}" -->
+                        <a>{{ x.name }}</a>
                     </td>
                     <td align="center">{{ x.total }}</td>
                     <td align="center">{{ x.public }}</td>
