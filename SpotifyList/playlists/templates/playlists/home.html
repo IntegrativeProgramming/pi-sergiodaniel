@@ -24,18 +24,22 @@
     <div class="divTable">
          <table class="table">
             <tr class="cabeceraTabla" style="color:White;">
-                <td align="center">Nombre playlist</td>
-                <td align="center">Número de canciones</td>
-                <td align="center">¿Pública?</td>
+                <td align="center">Nombre</td>
+                <td align="center">Dueño</td>
+                <td align="center">Canciones</td>
+                <td align="center">Link en Spotify</td>
+                <td align="center">Descripción</td>
             </tr>
             {% for x in array_table_elements %}
                 <tr class="filasTabla" style="color:Lavender;">
                     <td class="name" align="center">
                         <!--this href goes in the a below: href="{% url 'view_playlist_info' playlistId=x.playlist_id playlistName=x.name %}" -->
-                        <a>{{ x.name }}</a>
+                        <a>{{ x.nombre }}</a>
                     </td>
-                    <td align="center">{{ x.total }}</td>
-                    <td align="center">{{ x.public }}</td>
+                    <td align="center">{{ x.dueño }}</td>
+                    <td align="center">{{ x.canciones }}</td>
+                    <td href="x.link" align="center">{{ x.link }}</td>
+                    <td align="center">{{ x.descripcion }}</td>
                 </tr>
             {% endfor %}
          </table>

@@ -192,8 +192,8 @@ def home(request):
             for items in data:
                 if items == 'items':
                     for playlist in data[items]:
-                        playlists.append({'name': playlist['name'], 'total': playlist['tracks']['total'],
-                                                    'public': playlist['public'], 'playlist_id': playlist['id']})
+                        playlists.append({'playlist_id': playlist['id'], 'nombre': playlist['name'], 'dueño': playlist['owner']['display_name'],
+                                                     'descripcion': playlist['description'], 'link': playlist['external_urls']['spotify'], 'canciones': playlist['tracks']['total']})
                     break
 
             context = {
