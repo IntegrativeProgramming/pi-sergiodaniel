@@ -23,13 +23,13 @@
 
     <div class="divTable">
          <table class="table">
-            <tr class="cabeceraTabla">
+            <tr class="cabeceraTabla" style="color:White;">
                 <td align="center">Nombre playlist</td>
                 <td align="center">Número de canciones</td>
                 <td align="center">¿Pública?</td>
             </tr>
             {% for x in array_table_elements %}
-                <tr class="filasTabla">
+                <tr class="filasTabla" style="color:Lavender;">
                     <td class="name" align="center">
                         <!--this href goes in the a below: href="{% url 'view_playlist_info' playlistId=x.playlist_id playlistName=x.name %}" -->
                         <a>{{ x.name }}</a>
