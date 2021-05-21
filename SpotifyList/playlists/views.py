@@ -28,7 +28,7 @@ redirect_uri_instagram = 'http://127.0.0.1:8000/playlists/callback_instagram'
 redirect_uri_whatsapp = 'http://127.0.0.1:8000/playlists/callback_whatsapp'
 
 
-def signup_view(request):
+def iniciarsesion(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -45,7 +45,7 @@ def signup_view(request):
         return HttpResponseServerError
 
 
-def logout_view(request):
+def cerrarsesion(request):
     logout(request)
     return redirect('index')
 

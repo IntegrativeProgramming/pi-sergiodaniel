@@ -496,7 +496,22 @@ html, body {
     height: 100%;
     margin: 0px;
   }
-  
+   
+   table, th, td {
+    margin: 0px;
+    border: 1px solid white;
+    border-collapse: collapse;
+    padding: 5px;
+  }
+ 
+  table {
+    width: 100%;
+  }
+ 
+  #tablelink {
+    color: white;
+  }
+
   .container {
     min-height: 550px;
     max-width: 600px;
