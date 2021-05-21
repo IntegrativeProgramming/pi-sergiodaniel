@@ -49,7 +49,7 @@ def cerrarsesion(request):
     logout(request)
     return redirect('index')
 
-def _randomString(length):
+def gen_state(length):
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(length))
 
@@ -63,8 +63,7 @@ def index(request):
     except:
         error = False
 
-    login_error1 = None
-    login_error2 = None
+    
     error_type = None
 
     if 'username' in request.POST:
@@ -74,32 +73,23 @@ def index(request):
         if user is not None:
             login(request, user)
         else:
-            login_error1 = "Ha ocurrido un error en el login."
-            login_error2 = "Por favor, vuelva a intentarlo!"
             error_type = "login_error"
     elif error:
-        login_error1 = "Ha ocurrido un error en el registro."
-        login_error2 = "Por favor, vuelva a intentarlo!"
         error_type = "register_error"
-    else:
-        login_error1 = ""
-        login_error2 = ""
-        error_type = ""
-
+    
     login_form = LoginForm()
     signup_form = SignupForm()
     if request.user.is_authenticated:
         return redirect('login_spotify')
     else:
-        context = {'login_form': login_form, 'signup_form': signup_form, 'loginError1': login_error1,
-                   'loginError2': login_error2, 'errorType': error_type}
+        context = {'login_form': login_form, 'signup_form': signup_form, 'errorType': error_type}
         return render(request, 'playlists/login_content.html', context)
 
 
 
 def login_spotify(request):
 
-    state = _randomString(16)
+    state = gen_state(16)
 
     scope = 'user-read-private user-read-email playlist-read-private playlist-modify-public playlist-modify-private'
     query_string = {
@@ -129,7 +119,6 @@ def callback(request):
         return HttpResponseServerError
     else:
         request.COOKIES.clear()
-
         auxString = '{}:{}'.format(client_id, client_secret)
         preparedString = base64.b64encode(auxString.encode()).decode()
 
@@ -172,13 +161,6 @@ def callback(request):
 
 def home(request):
         
-        #try:
-        #    del request.session["ownedPlaylistName"]
-        #    del request.session['track_name']
-        #    del request.session['playlistName']
-        #except:
-        #    pass
-
         headers = {
             'Authorization': 'Bearer {}'.format(request.session['access_token'])
         }
