@@ -28,38 +28,16 @@
 
             {% endif %}
 
-            <!-- Modal -->
-            <!--
-            <div class="container">
-                <input type="radio" name="tab" id="signin" checked="checked"/>
-                <input type="radio" name="tab" id="register"/>
-                <div class="pages">
-                  <div class="page">
-                    <div role="tabpanel" class="tab-pane active" id="loginTab">
-                        <p>{% crispy login_form login_form.helper %}</p>
-                    </div>
-                  </div>
-                  <div class="page signup">
-                    <div role="tabpanel" class="tab-pane" id="signupTab">
-                        <p>{% crispy signup_form signup_form.helper %}</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="tabs" role="tablist">
-                    <a class="tab" href="#loginTab" aria-controls="loginTab" role="tab" data-toggle="tab" for="register">Iniciar sesión</a>
-                    <a class="tab" href="#signupTab" aria-controls="signupTab" role="tab" data-toggle="tab" for="register">Registrarse</a>
-                </div>
-              </div> -->
 
               <div class="container">
                 <input type="radio" name="tab" id="signin" checked="checked"/>
                 <input type="radio" name="tab" id="register"/>
                 <div class="pages">
                   <div class="page">
-                    <p>{% crispy login_form login_form.helper %}</p>
+                    {% crispy login_form login_form.helper %}
                   </div>
                   <div class="page signup">
-                    <p>{% crispy signup_form signup_form.helper %}</p>
+                    {% crispy signup_form signup_form.helper %}
                   </div>
                 </div>
                 <div class="tabs">
