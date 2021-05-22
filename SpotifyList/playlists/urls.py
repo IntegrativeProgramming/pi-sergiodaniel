@@ -19,8 +19,8 @@ from . import views
 
 urlpatterns = [
 	url(r'^$', views.index, name='index'),
-    url(r'^signup_view/$', views.signup_view, name='signup_view'),
-    url(r'^logout_view/$', views.logout_view, name='logout_view'),
+    url(r'^iniciarsesion/$', views.iniciarsesion, name='iniciarsesion'),
+    url(r'^cerrarsesion/$', views.cerrarsesion, name='cerrarsesion'),
     url(r'^login_spotify/$', views.login_spotify, name='login_spotify'),
     url(r'^callback/$', views.callback, name='callback'),
     url(r'^home/$', views.home, name='home'),

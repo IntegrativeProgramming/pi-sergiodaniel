@@ -13,7 +13,7 @@ class SignupForm(forms.Form, UserCreationForm):
         self.helper.form_id = 'id-registerForm'
         self.helper.form_class = 'form-group'
         self.helper.form_method = 'post'
-        self.helper.form_action = 'signup_view'
+        self.helper.form_action = 'iniciarsesion'
         self.helper.add_input(Submit('registrar', 'Registrar'))
 
 

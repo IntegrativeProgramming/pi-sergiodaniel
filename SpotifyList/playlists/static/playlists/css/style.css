@@ -28,6 +28,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 .nav-tabs {
   border-bottom: 1px solid #dbee2e6;
 }
+
 .nav-tabs .nav-link {
   margin-bottom: -1px;
   border: 1px solid transparent;

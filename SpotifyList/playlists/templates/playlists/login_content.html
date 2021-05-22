@@ -10,12 +10,12 @@
     <div id="bloquePrincipal">
 
         <div class="contenido">
-            {% if loginError1 != "" and loginError2 != "" and errorType == "login_error" %}
+            {% if errorType == "login_error" %}
 
                 <h2 style="color:White;">Ha ocurrido un error al iniciar sesión.</h2>
                 <h2 style="color:White;">Introduzca el usuario y contraseña de forma correcta.</h2>
 
-            {% elif loginError1 != "" and loginError2 != "" and errorType == "register_error" %}
+            {% elif errorType == "register_error" %}
 
                 <h2 style="color:White;">Ha ocurrido un error al registrarse.</h2>
                 <h2 style="color:White;">Revise las instrucciones para registrase de forma correcta.</h2>
