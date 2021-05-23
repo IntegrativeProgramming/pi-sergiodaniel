@@ -1,9 +1,22 @@
 {% extends "playlists/index.html" %}
  
 {% block content %}
+
+
     <div id="titulo">
         <h2 id="title">TUS PLAYLISTS DE SPOTIFY</h2>
     </div>
+
+    <div id="barrabusqueda">
+        <section class="webdesigntuts-workshop">
+            <form action="" method="">          
+                <input type="search" placeholder="Search...">               
+                <button>Search</button>
+            </form>
+        </section>
+    </div>
+
+
     <div class="divTable">
          <table class="table">
             <tr class="PlaylistHeaders" style="color:White;">
@@ -32,6 +45,7 @@
          </table>
     </div>
     <div>
+
         <button id="anadirplaylist">
             Crear Playlist
         </button>
@@ -39,5 +53,7 @@
         <button id="eliminarplaylist">
             Eliminar Playlist
         </button>
+
+
     </div>
 {% endblock %}
