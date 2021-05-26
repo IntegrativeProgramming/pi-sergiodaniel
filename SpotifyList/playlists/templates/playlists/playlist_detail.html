@@ -1,0 +1,63 @@
+{% extends "playlists/index.html" %}
+ 
+{% block content %}
+
+
+    <div id="titulo">
+        <h2 id="title">NOMBRE DE PLAYLIST</h2>
+    </div>
+
+    <div id="barrabusqueda">
+        <section class="webdesigntuts-workshop">
+            <form action="" method="">          
+                <input type="search" placeholder="Search...">               
+                <button>Search</button>
+            </form>
+        </section>
+    </div>
+
+
+    <div class="divTable">
+         <table class="table">
+            <tr class="PlaylistHeaders" style="color:White;">
+                <th align="center">Seleccionar</td>
+                <th align="center">Nombre</td>
+                <th align="center">Artista</td>
+                <th align="center">Album</td>
+                <th align="center">Duración</td>
+                <th align="center">Visitas</td>
+                <th align="center">Popularidad</td>
+                <th align="center">Link en Spotify</td>
+            </tr>
+            {% for x in array_table_elements %}
+                <tr class="" style="color:Lavender;">
+                    <td align="center"><input type="checkbox" name="playlist-checkbox"/></td>
+                    <td class="name" align="center">
+                        <!--this href goes in the a below: href="{% url 'view_playlist_info' playlistId=x.playlist_id playlistName=x.name %}" -->
+                        <a id="tablelink">{{ x.nombre }}</a>
+                    </td>
+                    <td align="center">{{ x.artista }}</td>
+                    <td align="center">{{ x.album }}</td>
+                    <td align="center">{{ x.duracion }}</td>
+                    <td align="center">{{ x.visitas }}</td>
+                    <td align="center">{{ x.popularidad }}</td>
+                    <td class="link" align="center">
+                        <a id="tablelink" href={{ x.link }}>{{ x.link }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+         </table>
+    </div>
+    <div>
+
+        <button id="anadircancion">
+            Añadir Canción
+        </button>
+
+        <button id="eliminarcancion">
+            Eliminar Canción
+        </button>
+
+
+    </div>
+{% endblock %}

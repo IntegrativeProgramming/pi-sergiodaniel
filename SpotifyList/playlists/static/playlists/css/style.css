@@ -745,12 +745,12 @@ html, body {
     color: white;
   }
 
-  #anadirplaylist {
+  #anadirplaylist, #anadircancion{
     position: relative;
     left: 20%
   }
 
-  #eliminarplaylist {
+  #eliminarplaylist, #eliminarcancion {
     position: relative;
     left: 50%;
   }
