@@ -189,29 +189,29 @@ def home(request):
 def playlist_detail(request):
 
     headers = {
-            'Authorization': 'Bearer {}'.format(request.session['access_token'])
+        'Authorization': 'Bearer {}'.format(request.session['access_token'])
+    }
+    
+    r = requests.get('https://api.spotify.com/v1/me/playlists', headers=headers)
+
+    if r.status_code == 200:
+        playlists = []
+
+        data = r.json()
+        for items in data:
+            if items == 'items':
+                for playlist in data[items]:
+                    playlists.append({'playlist_id': playlist['id'], 'nombre': playlist['name'], 'dueño': playlist['owner']['display_name'],
+                                                    'descripcion': playlist['description'], 'link': playlist['external_urls']['spotify'], 'canciones': playlist['tracks']['total']})
+                break
+
+        context = {
+            'array_table_elements': playlists
         }
 
-        r = requests.get('https://api.spotify.com/v1/me/playlists', headers=headers)
-
-        if r.status_code == 200:
-            playlists = []
-
-            data = r.json()
-            for items in data:
-                if items == 'items':
-                    for playlist in data[items]:
-                        playlists.append({'playlist_id': playlist['id'], 'nombre': playlist['name'], 'dueño': playlist['owner']['display_name'],
-                                                     'descripcion': playlist['description'], 'link': playlist['external_urls']['spotify'], 'canciones': playlist['tracks']['total']})
-                    break
-
-            context = {
-                'array_table_elements': playlists
-            }
-
-            return render(request, 'playlists/home.html', context)
-        else:
-            return HttpResponseForbidden
+        return render(request, 'playlists/home.html', context)
+    else:
+        return HttpResponseForbidden
 
 def add_playlist(request):
     print("add playlist mock")
