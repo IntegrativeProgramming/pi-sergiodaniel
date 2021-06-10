@@ -215,18 +215,16 @@ def playlist_detail(request, playlistId, playlistName):
                     empty_playlist = True
                     for artists in track['track']['album']['artists']:
                         artists_name = artists['name']
-                        duration_initial = track['track']
-                        array_table_elements.append({'name': track['track']['name'], 'artist': artists_name,
+                        array_table_elements.append({'nombre_playlist': playlistName, 'playList_id': playlistId,'name': track['track']['name'], 'artist': artists_name,
                                                      'popularity': track['track']['popularity'],
                                                      'artist_id': artists['id']})
                         break
                 break
 
         context = {
-            'nombre_playlist': playlistName,
-            'playList_id': playlistId,
-            'array_table_elements': array_table_elements 
+            'array_table_elements': array_table_elements
         }
+        
 
         return render(request, 'playlists/playlist_detail.html', context)
     else:
