@@ -195,30 +195,40 @@ def home(request):
         else:
             return HttpResponseForbidden
 
-def playlist_detail(request):
+def playlist_detail(request, playlistId, playlistName):
 
     headers = {
         'Authorization': 'Bearer {}'.format(request.session['access_token'])
     }
-    
-    r = requests.get('https://api.spotify.com/v1/me/playlists', headers=headers)
+
+    r = requests.get('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlistId), headers=headers)
+
 
     if r.status_code == 200:
         playlists = []
 
+        array_table_elements = []
         data = r.json()
         for items in data:
             if items == 'items':
-                for playlist in data[items]:
-                    playlists.append({'playlist_id': playlist['id'], 'nombre': playlist['name'], 'dueño': playlist['owner']['display_name'],
-                                                    'descripcion': playlist['description'], 'link': playlist['external_urls']['spotify'], 'canciones': playlist['tracks']['total']})
+                for track in data[items]:
+                    empty_playlist = True
+                    for artists in track['track']['album']['artists']:
+                        artists_name = artists['name']
+                        duration_initial = track['track']
+                        array_table_elements.append({'name': track['track']['name'], 'artist': artists_name,
+                                                     'popularity': track['track']['popularity'],
+                                                     'artist_id': artists['id']})
+                        break
                 break
 
         context = {
-            'array_table_elements': playlists
+            'nombre_playlist': playlistName,
+            'playList_id': playlistId,
+            'array_table_elements': array_table_elements 
         }
 
-        return render(request, 'playlists/home.html', context)
+        return render(request, 'playlists/playlist_detail.html', context)
     else:
         return HttpResponseForbidden
 

@@ -32,7 +32,7 @@
                     <td align="center"><input type="checkbox" name="playlist-checkbox"/></td>
                     <td class="name" align="center">
                         <!--this href goes in the a below: href="{% url 'view_playlist_info' playlistId=x.playlist_id playlistName=x.name %}" -->
-                        <a id="tablelink">{{ x.nombre }}</a>
+                        <a href="{% url 'playlist_detail' playlistId=x.playlist_id playlistName=x.nombre %}">{{ x.nombre }}</a>
                     </td>
                     <td align="center">{{ x.dueño }}</td>
                     <td align="center">{{ x.canciones }}</td>

@@ -27,5 +27,5 @@ urlpatterns = [
     url(r'^add_playlist/$', views.add_playlist, name='add_playlist'),
     url(r'^show_playlists/$', views.show_playlists, name='show_playlists'),
     url(r'^view_playlist_info/(?P<playlistId>\w+)/(?P<playlistName>.*)/$', views.view_playlist_info, name='view_playlist_info'),
-
+    url(r'^playlist_detail(?P<playlistId>\w+)/(?P<playlistName>.*)/$', views.playlist_detail, name='playlist_detail'),
 ]
