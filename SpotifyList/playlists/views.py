@@ -22,15 +22,6 @@ import pandas as pd
 client_id = '2e6a6b883a174b3693a4c0a335558f30'
 client_secret = 'a2fbd32563c04123a3515c45951206ca'
 
-client_id_genius = '8lIzMidCaMlcIVOeeW4WYeXYzFqv5qx3RJXra0k9qxyKO8hQai20eDqkWi_VR6s4'
-client_secret_genius = '56Y-GmGryi7cTNmDf3dZj-CzvFeCaIjoY_DFljpwnVENRjYPH8NMg0IhGWRjUFWIwhS4MZ1Wh5fqspnO4e-16Q'
-
-client_id_whatsapp = ''
-client_secret_whatsapp = ''
-
-client_id_instagram = ''
-client_secret_instagram =''
-
 redirect_uri = 'http://127.0.0.1:8000/playlists/callback'
 redirect_uri_genius = 'http://127.0.0.1:8000/playlists/callback_genius'
 redirect_uri_instagram = 'http://127.0.0.1:8000/playlists/callback_instagram'
@@ -121,6 +112,8 @@ def callback(request):
     state = request.GET['state']
     storedState = None
 
+    print(request.COOKIES)
+
     if request.COOKIES:
         storedState = request.COOKIES['stateKey']
 
@@ -195,36 +188,37 @@ def home(request):
         else:
             return HttpResponseForbidden
 
-def playlist_detail(request, playlistId, playlistName):
+def playlist_detail(request, playlist_id, nombre_playlist):
 
     headers = {
-        'Authorization': 'Bearer {}'.format(request.session['access_token'])
-    }
+            'Authorization': 'Bearer {}'.format(request.session['access_token'])
+        }
 
-    r = requests.get('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlistId), headers=headers)
-
+    r = requests.get('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id), headers=headers)
 
     if r.status_code == 200:
-        playlists = []
 
-        array_table_elements = []
+        songs = []
         data = r.json()
+
         for items in data:
             if items == 'items':
-                for track in data[items]:
-                    empty_playlist = True
-                    for artists in track['track']['album']['artists']:
-                        artists_name = artists['name']
-                        array_table_elements.append({'nombre_playlist': playlistName, 'playList_id': playlistId,'name': track['track']['name'], 'artist': artists_name,
-                                                     'popularity': track['track']['popularity'],
-                                                     'artist_id': artists['id']})
-                        break
+                for ptrack in data[items]:
+                    for artists in ptrack['track']['artists']:
+                        artists_names = artists['name']
+                    songs.append({'nombre': ptrack['track']['name'], 'artista': artists_names,
+                                                    'album': ptrack['track']['album']['name'],
+                                                    'duracion': ptrack['track']['duration_ms'],
+                                                    'popularidad': ptrack['track']['popularity'],
+                                                    'link': ptrack['track']['external_urls']['spotify']})
+                    break
                 break
 
         context = {
-            'array_table_elements': array_table_elements
+            'playlist_id': playlist_id, 
+            'nombre': nombre_playlist,
+            'array_table_elements': songs
         }
-        
 
         return render(request, 'playlists/playlist_detail.html', context)
     else:
