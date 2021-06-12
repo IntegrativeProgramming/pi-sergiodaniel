@@ -1,22 +1,6 @@
 {% extends "playlists/index.html" %}
- 
+
 {% block content %}
-
-
-    <div id="titulo">
-        <h2 id="title">{{ Nombre }}</h2>
-    </div>
-
-    <div id="barrabusqueda">
-        <section class="webdesigntuts-workshop">
-            <form class="flexsearch--form" method="post" action={% url "mostrar_tracks" %}>
-                {% csrf_token %}
-                <input type="search" name=track_name placeholder="Search...">               
-                <button>Search</button>
-            </form>
-        </section>
-    </div>
-
 
     <div class="divTable">
          <table class="table">
@@ -42,15 +26,20 @@
                     </td>
                 </tr>
             {% endfor %}
+
+
          </table>
     </div>
-    <div>
+
+     <div>
 
         <button id="anadirplaylist">
             <a href="{% url 'add_playlist'%}">
-            Guardar canción
+            Guardar Playlist
         </button>
 
 
-    </div>
+    </div>   
+
+
 {% endblock %}
