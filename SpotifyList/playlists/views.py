@@ -321,8 +321,107 @@ def add_playlist(request):
         context = {'add_playlist_form': add_play_list}
         return render(request, 'playlists/addPlaylist.html', context)
 
-def show_playlists(request):
-    print("show playlists mock")
 
-def view_playlist_info(request):
-    print("view playlist mock")
+def delete_playlists(request, playlist_id):
+    r = request.delete('https://api.spotify.com/v1/playlists/{playlist_id}/tracks'.format(request.session['user_id']), headers=headers, json=form)
+
+
+def delete_tracks(request, playlist_id):
+    r = request.delete('https://api.spotify.com/v1/playlists/{playlist_id}/tracks'.format(request.session['user_id']), headers=headers, json=form)
+
+
+
+def buscar(request, playlist_id, nombre_playlist):
+
+    request.session['playlist_id'] = playlist_id
+    request.session['ownedPlaylistName'] = nombre_playlist
+    search_track_form = BusquedaForm()
+
+    context = {
+        'search_track_form': search_track_form,
+        'playList_id': playlist_id
+    }
+    return render(request, 'miSpotify/nombre.html', context)
+
+
+def mostrar_playlists(request):
+
+    if 'nombre_playlist' in request.POST and request.POST['nombre_playlist'] != "":
+
+
+        query_string = {
+            'q': request.POST['nombre_playlist'],
+            'type': 'playlist',
+            'limit': 10
+        }
+
+        headers = {
+            'Authorization': 'Bearer {}'.format(request.session['access_token'])
+        }
+
+        r = requests.get('https://api.spotify.com/v1/search?' + urllib.parse.urlencode(query_string), headers=headers)
+
+        if r.status_code == 200:
+            info_playlist = pd.DataFrame(r.json()['playlists']['items'], columns=['name', 'tracks', 'public', 'id'])
+
+            array_table_elements = []
+
+            for i, items in info_playlist.iterrows():
+                array_table_elements.append({'name': items['name'], 'total': items['tracks']['total'],
+                                             'public': items['public'], 'playlist_id': items['id']})
+
+            context = {
+                'nombre_playlist':request.POST['playlistName'],
+                'array_table_elements': array_table_elements
+            }
+
+            return render(request, 'playlists/nombre.html', context)
+        else:
+            return HttpResponseServerError
+    else:
+        return redirect("home")
+
+
+def mostrar_tracks(request):
+
+    if 'track_name' in request.POST:
+
+        query_string = {
+            'q': request.POST['track_name'],
+            'type': 'track',
+            'limit': 10
+        }
+
+        headers = {
+            'Authorization': 'Bearer {}'.format(request.session['access_token'])
+        }
+
+        r = requests.get('https://api.spotify.com/v1/search?' + urllib.parse.urlencode(query_string), headers=headers)
+
+        if r.status_code == 200:
+            info_tracks = pd.DataFrame(r.json()['tracks']['items'], columns=['name', 'uri', 'popularity', 'duration_ms',
+                                                                             'artists'])
+
+            min, sec = divmod(info_tracks['duration_ms']/1000, 60)
+
+            array_table_elements = []
+
+            for i, items in info_tracks.iterrows():
+                array_table_elements.append({'name': items['name'],
+                                             'uri': items['uri'],
+                                             'popularity': items['popularity'],
+                                             'duracion': f'{min:0>2.0f}:{sec:2.0f}',
+                                             'artist_name': items['artists'][0]['name'],
+                                             'artist_id': items['artists'][0]['id']})
+
+            context = {
+                'search_track_name': request.POST['track_name'],
+                'owned_playlist_name': request.session['ownedPlaylistName'],
+                'array_table_elements': array_table_elements
+            }
+
+            return render(request, 'miSpotify/nombre.html', context)
+        else:
+            return HttpResponseServerError
+    else:
+        return HttpResponseServerError
