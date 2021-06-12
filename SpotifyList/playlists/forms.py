@@ -29,3 +29,37 @@ class LoginForm(AuthenticationForm):
                 Submit('login', 'Login', css_class='btn-primary')
             )
         )
+
+
+class AddPlayListForm(forms.Form):
+
+    playlist_name = forms.CharField(
+        label="Nombre para la playlist",
+        max_length=100,
+        required=True,
+    )
+
+    playlist_description = forms.CharField(
+        label="Descripción breve",
+        max_length=100,
+        required=True,
+    )
+
+    playlist_type = forms.TypedChoiceField(
+        label="¿Privacidad?",
+        choices=((1, "Privada"), (0, "Pública")),
+        coerce=lambda x: bool(int(x)),
+        widget=forms.RadioSelect,
+        initial='1',
+        required=True,
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(AddPlayListForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-AddPlayListForm'
+        self.helper.form_class = 'blueForms'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'add_playlist'
+
+        self.helper.add_input(Submit('submit', 'Añadir'))

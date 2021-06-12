@@ -1,0 +1,16 @@
+{% extends "playlists/index.html" %}
+
+{% block content %}
+
+    <h2>Crea tu propia playlist</h2>
+
+    <div class="tab-content">
+    <form>
+    <div class="container">
+        <div role="tabpanel" class="tab-pane active" id="addPlayListTab">
+            <p>{% load crispy_forms_tags %} {% crispy add_playlist_form add_playlist_form.helper %}</p>
+        </div>
+    </div>    
+    </div>
+    </form>
+{% endblock %}

@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseForbidden, HttpResponseServerE
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 
-from playlists.forms import LoginForm, SignupForm
+from playlists.forms import LoginForm, SignupForm, AddPlayListForm
 
 
 import requests
@@ -106,6 +106,26 @@ def login_spotify(request):
     return response
 
 
+def login_genius(request):
+
+    state = gen_state(16)
+
+    scope = 'me create_annotation'
+    query_string = {
+        'response_type': 'code',
+        'client_id': client_id_genius,
+        'scope': scope,
+        'redirect_uri': redirect_uri_genius,
+        'state': state
+    }
+
+    response = redirect('https://api.genius.com/oauth/authorize?' + urllib.parse.urlencode(query_string))
+    response.set_cookie('stateKey', state)
+
+    return response
+
+
+
 def callback(request):
 
     code = request.GET['code']
@@ -157,6 +177,47 @@ def callback(request):
                 return redirect('home')
             else:
                 return HttpResponseServerError
+        else:
+            return HttpResponseServerError
+
+
+def callback_genius(request):
+
+    code = request.GET['code']
+    state = request.GET['state']
+    storedState = None
+
+    if request.COOKIES:
+        storedState = request.COOKIES['stateKey']
+
+    if state is None or state != storedState:
+        return HttpResponseServerError
+    else:
+        request.COOKIES.clear()
+
+        url = 'https://api.genius.com/oauth/token'
+
+        form = {
+            'code': code,
+            'client_id': client_id_genius,
+            'client_secret': client_secret_genius,
+            'redirect_uri': redirect_uri_genius,
+            'response_type': "code",
+            'grant_type': 'authorization_code',
+        }
+
+        r = requests.post(url, data=form)
+
+        if r.status_code == 200:
+
+            access_token = r.json()['access_token']
+
+            request.session['genius_access_token'] = access_token
+
+            url = 'http://127.0.0.1:8000/miSpotify/view_artist_info/' + request.session['aux_artistId'] + '/?trackName=' + request.session['aux_trackName']
+
+            return redirect(url)
+
         else:
             return HttpResponseServerError
 
@@ -223,8 +284,42 @@ def playlist_detail(request, playlist_id, nombre_playlist):
     else:
         return HttpResponseForbidden
 
+
+
 def add_playlist(request):
-    print("add playlist mock")
+
+    if 'playlist_name' in request.POST:
+        playlist_name = request.POST['playlist_name']
+        playlist_description = request.POST['playlist_description']
+        playlist_type = request.POST['playlist_type']
+
+        if playlist_type == 1:
+            public = True
+        else:
+            public = False
+
+        form = {
+            'name': playlist_name,
+            'public': public,
+            'description': playlist_description
+        }
+
+        headers = {
+            'Authorization': 'Bearer {}'.format(request.session['access_token']),
+            'Content-Type': 'application/json'
+        }
+
+        r = requests.post('https://api.spotify.com/v1/users/{}/playlists'.format(request.session['user_id']), headers=headers, json=form)
+
+        if r.status_code == 201:
+            return redirect('home')
+        else:
+            return HttpResponseServerError
+    else:
+        add_play_list = AddPlayListForm()
+
+        context = {'add_playlist_form': add_play_list}
+        return render(request, 'playlists/addPlaylist.html', context)
 
 def show_playlists(request):
     print("show playlists mock")
