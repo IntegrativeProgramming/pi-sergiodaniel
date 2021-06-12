@@ -49,7 +49,7 @@ class AddPlayListForm(forms.Form):
         label="¿Privacidad?",
         choices=((1, "Privada"), (0, "Pública")),
         coerce=lambda x: bool(int(x)),
-        widget=forms.RadioSelect,
+       # widget=forms.RadioSelect,
         initial='1',
         required=True,
     )
@@ -74,9 +74,9 @@ class BusquedaForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        super(SearchTrackForm, self).__init__(*args, **kwargs)
+        super(BusquedaForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_id = 'id-SearchTrackForm'
+        self.helper.form_id = 'id-BusquedaForm'
         self.helper.form_class = 'blueForms'
         self.helper.form_method = 'post'
         self.helper.form_action = 'show_tracks'

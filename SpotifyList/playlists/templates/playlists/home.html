@@ -9,8 +9,9 @@
 
     <div id="barrabusqueda">
         <section class="webdesigntuts-workshop">
-            <form action="" method="">          
-                <input type="search" placeholder="Search...">               
+            <form class="flexsearch--form" method="post" action={% url "mostrar_playlists" %}>
+                {% csrf_token %}
+                <input type="search" name=nombre_playlist placeholder="Search...">               
                 <button>Search</button>
             </form>
         </section>

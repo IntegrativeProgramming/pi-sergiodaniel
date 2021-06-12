@@ -371,11 +371,11 @@ def mostrar_playlists(request):
                                              'public': items['public'], 'playlist_id': items['id']})
 
             context = {
-                'nombre_playlist':request.POST['playlistName'],
+                'nombre_playlist':request.POST['nombre_playlist'],
                 'array_table_elements': array_table_elements
             }
 
-            return render(request, 'playlists/nombre.html', context)
+            return render(request, 'playlists/mostrar_playlists.html', context)
         else:
             return HttpResponseServerError
     else:

@@ -1,0 +1,37 @@
+{% extends "playlists/index.html" %}
+
+{% block content %}
+
+    <div class="Cabecera">
+        <a>Resultados para la canción </a>
+        <a class="fontStyle"> ' {{ search_track_name }} ' </a>
+    </div>
+
+
+    <div class="divTable">
+         <table class="table">
+            <tr class="cabeceraTabla">
+                <td align="center">Nombre</td>
+                <td align="center">Artista</td>
+                <td align="center">Duración</td>
+                <td align="center">Popularidad</td>
+                <td align="center"></td>
+            </tr>
+            {% for x in array_table_elements %}
+                <tr class="filasTabla">
+                    <td align="center">{{ x.name }}</td>
+                    <td align="center">{{ x.artist_name }}</td>
+                    <td align="center">{{ x.duration }} min</td>
+                    <td align="center">{{ x.popularity }}</td>
+                    <td>
+                        <a class="botonAnadirCanción" href={% url "add_playlist" trackId=x.uri trackName=x.name playlistName=owned_playlist_name %}>Añadir</a>
+                    </td>
+
+
+                </tr>
+            {% endfor %}
+         </table>
+    </div>
+
+
+{% endblock %}
