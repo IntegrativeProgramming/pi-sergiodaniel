@@ -362,17 +362,16 @@ def mostrar_playlists(request):
         r = requests.get('https://api.spotify.com/v1/search?' + urllib.parse.urlencode(query_string), headers=headers)
 
         if r.status_code == 200:
-            info_playlist = pd.DataFrame(r.json()['playlists']['items'], columns=['name', 'tracks', 'public', 'id'])
+            info_playlists = pd.DataFrame(r.json()['playlists']['items'], columns=['id','name', 'owner', 'description', 'external_urls', 'tracks'])
+            playlists = []
 
-            array_table_elements = []
-
-            for i, items in info_playlist.iterrows():
-                array_table_elements.append({'name': items['name'], 'total': items['tracks']['total'],
-                                             'public': items['public'], 'playlist_id': items['id']})
+            for i, items in info_playlists.iterrows():
+                        playlists.append({'playlist_id': items['id'], 'nombre': items['name'], 'dueño': items['owner']['display_name'],
+                                                     'descripcion': items['description'], 'link': items['external_urls']['spotify'], 'canciones': items['tracks']['total']})
 
             context = {
                 'nombre_playlist':request.POST['nombre_playlist'],
-                'array_table_elements': array_table_elements
+                'array_table_elements': playlists
             }
 
             return render(request, 'playlists/mostrar_playlists.html', context)
@@ -406,18 +405,17 @@ def mostrar_tracks(request):
 
             array_table_elements = []
 
-            for i, items in info_tracks.iterrows():
-                array_table_elements.append({'name': items['name'],
-                                             'uri': items['uri'],
-                                             'popularity': items['popularity'],
-                                             'duracion': f'{min:0>2.0f}:{sec:2.0f}',
-                                             'artist_name': items['artists'][0]['name'],
-                                             'artist_id': items['artists'][0]['id']})
+            for i, items in info_tracks.iterrows():                  
+                songs.append({'nombre': ptrack['track']['name'], 'artista': artists_names,
+                                                'album': ptrack['track']['album']['name'],
+                                                'duracion': f'{min:0>2.0f}:{sec:2.0f}',
+                                                'popularidad': ptrack['track']['popularity'],
+                                                'link': ptrack['track']['external_urls']['spotify']})
 
             context = {
                 'search_track_name': request.POST['track_name'],
                 'owned_playlist_name': request.session['ownedPlaylistName'],
-                'array_table_elements': array_table_elements
+                'array_table_elements': songs
             }
 
             return render(request, 'miSpotify/nombre.html', context)
