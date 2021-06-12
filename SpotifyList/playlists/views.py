@@ -178,7 +178,6 @@ def home(request):
                     for playlist in data[items]:
                         playlists.append({'playlist_id': playlist['id'], 'nombre': playlist['name'], 'dueño': playlist['owner']['display_name'],
                                                      'descripcion': playlist['description'], 'link': playlist['external_urls']['spotify'], 'canciones': playlist['tracks']['total']})
-                    break
 
             context = {
                 'array_table_elements': playlists
@@ -206,13 +205,13 @@ def playlist_detail(request, playlist_id, nombre_playlist):
                 for ptrack in data[items]:
                     for artists in ptrack['track']['artists']:
                         artists_names = artists['name']
+                    min, sec = divmod(ptrack['track']['duration_ms']/1000, 60)                   
                     songs.append({'nombre': ptrack['track']['name'], 'artista': artists_names,
                                                     'album': ptrack['track']['album']['name'],
-                                                    'duracion': ptrack['track']['duration_ms'],
+                                                    'duracion': f'{min:0>2.0f}:{sec:2.0f}',
                                                     'popularidad': ptrack['track']['popularity'],
                                                     'link': ptrack['track']['external_urls']['spotify']})
-                    break
-                break
+
 
         context = {
             'playlist_id': playlist_id, 
