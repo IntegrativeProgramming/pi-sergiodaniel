@@ -27,5 +27,7 @@ urlpatterns = [
     url(r'^mostrar_tracks/$', views.mostrar_tracks, name='mostrar_tracks'),
     url(r'^mostrar_playlists/$', views.mostrar_playlists, name='mostrar_playlists'),
     url(r'^add_playlist/$', views.add_playlist, name='add_playlist'),
+    url(r'^add_track/(?P<track_id>[:\w]+)/(?P<nombre_track>.*)/(?P<nombre_playlist>.*)/$', views.add_track, name='add_track'),
+    url(r'^add_searched_playlist/(?P<playlist_id>[:\w]+)/(?P<nombre_playlist>.*)/$', views.add_searched_playlist, name='add_searched_playlist'),
     url(r'^playlist_detail(?P<playlist_id>\w+)/(?P<nombre_playlist>.*)/$', views.playlist_detail, name='playlist_detail'),
 ]
