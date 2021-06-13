@@ -63,22 +63,3 @@ class AddPlayListForm(forms.Form):
         self.helper.form_action = 'add_playlist'
 
         self.helper.add_input(Submit('submit', 'Añadir'))
-
-
-class BusquedaForm(forms.Form):
-
-    track_name = forms.CharField(
-        label="Nombre",
-        max_length=100,
-        required=True,
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(BusquedaForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_id = 'id-BusquedaForm'
-        self.helper.form_class = 'blueForms'
-        self.helper.form_method = 'post'
-        self.helper.form_action = 'show_tracks'
-
-        self.helper.add_input(Submit('submit', 'Buscar'))

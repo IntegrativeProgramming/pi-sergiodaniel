@@ -330,20 +330,6 @@ def delete_tracks(request, playlist_id):
     r = request.delete('https://api.spotify.com/v1/playlists/{playlist_id}/tracks'.format(request.session['user_id']), headers=headers, json=form)
 
 
-
-def buscar(request, playlist_id, nombre_playlist):
-
-    request.session['playlist_id'] = playlist_id
-    request.session['ownedPlaylistName'] = nombre_playlist
-    search_track_form = BusquedaForm()
-
-    context = {
-        'search_track_form': search_track_form,
-        'playList_id': playlist_id
-    }
-    return render(request, 'miSpotify/nombre.html', context)
-
-
 def mostrar_playlists(request):
 
     if 'nombre_playlist' in request.POST and request.POST['nombre_playlist'] != "":
@@ -416,7 +402,6 @@ def mostrar_tracks(request):
 
             context = {
                 'search_track_name': request.POST['track_name'],
-                #'owned_playlist_name': request.session['ownedPlaylistName'],
                 'array_table_elements': tracks_info
             }
 
