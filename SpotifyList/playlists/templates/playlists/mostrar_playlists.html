@@ -25,6 +25,11 @@
                     </td>
                     <td align="center">{{ x.descripcion }}</td>
                 </tr>
+
+                        <button id="anadirplaylist">
+            <a href="{% url 'add_searched_playlist' playlist_id=x.playlist_id nombre_playlist=x.nombre%}">
+            Guardar Playlist
+        </button>
             {% endfor %}
 
 
@@ -32,11 +37,6 @@
     </div>
 
      <div>
-
-        <button id="anadirplaylist">
-            <a href="{% url 'add_searched_playlist' playlist_id=x.playlist_id nombre_playlist=x.nombre%}">
-            Guardar Playlist
-        </button>
 
 
     </div>   
