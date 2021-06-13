@@ -409,7 +409,7 @@ def mostrar_tracks(request):
             for i, items in info_tracks.iterrows():                 
                 tracks_info.append({'nombre': items['name'],
                                                 'artista': items['artists'][0]['name'],
-                                                'album': items['album'],
+                                                'album': items['album']['name'],
                                                 'duracion': items['duration_ms'],
                                                 'popularidad': items['popularity'],
                                                 'link': items['external_urls']['spotify']})
