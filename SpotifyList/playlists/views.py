@@ -398,17 +398,17 @@ def mostrar_tracks(request):
         r = requests.get('https://api.spotify.com/v1/search?' + urllib.parse.urlencode(query_string), headers=headers)
 
         if r.status_code == 200:
-            info_tracks = pd.DataFrame(r.json()['tracks']['items'], columns=['name', 'artists', 'album', 'duration_ms','popularity', 'external_urls', 'spotify'])
+            info_tracks = pd.DataFrame(r.json()['tracks']['items'], columns=['name', 'artists', 'album', 'duration_ms','popularity', 'external_urls'])          
 
             info_tracks['duration_ms'] = info_tracks['duration_ms']/1000/60
             info_tracks['duration_ms'] = info_tracks['duration_ms'].round(2)
             info_tracks['duration_ms'] = info_tracks['duration_ms']
 
-            array_table_elements = []
+            tracks_info = []
 
             for i, items in info_tracks.iterrows():                 
-                items.append({'nombre': items['name'],
-                                                'artista': items['artists'][0]['name'],
+                tracks_info.append({'nombre': items['name'],
+                                                'artista': items['artists'],
                                                 'album': items['album'],
                                                 'duracion': items['duration_ms'],
                                                 'popularidad': items['popularity'],
@@ -416,11 +416,11 @@ def mostrar_tracks(request):
 
             context = {
                 'search_track_name': request.POST['track_name'],
-                'owned_playlist_name': request.session['ownedPlaylistName'],
-                'array_table_elements': items
+                #'owned_playlist_name': request.session['ownedPlaylistName'],
+                'array_table_elements': tracks_info
             }
 
-            return render(request, 'miSpotify/nombre.html', context)
+            return render(request, 'playlists/mostrar_tracks.html', context)
         else:
             return HttpResponseServerError
     else:
