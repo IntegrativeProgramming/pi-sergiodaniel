@@ -410,3 +410,47 @@ def mostrar_tracks(request):
             return HttpResponseServerError
     else:
         return HttpResponseServerError
+
+
+def add_track(request, track_id, nombre_track, nombre_playlist):
+
+    request.session['track_name'] = nombre_track
+
+    headers = {
+        'Authorization': 'Bearer {}'.format(request.session['access_token'])
+    }
+
+    url = 'https://api.spotify.com/v1/playlists/{}/tracks'.format(request.session['playlist_id']) + "?uris=" + trackId
+
+    r = requests.post(url, headers=headers)
+
+    if r.status_code == 201:
+
+        context = {'track_name': nombre_track,
+                   'playlist_id': request.session['playlist_id'],
+                   'playlist_name': nombre_playlist}
+        return render(request, 'playlists/add_track_search.html', context)
+    else:
+        return HttpResponseServerError
+
+
+def add_searched_playlist(request, playlist_id, nombre_playlist):
+
+    request.session['nombre_playlist'] = nombre_playlist
+
+    headers = {
+        'Authorization': 'Bearer {}'.format(request.session['access_token']),
+        'Content-Type': 'application/json',
+    }
+
+    url = 'https://api.spotify.com/v1/playlists/{}/followers'.format(playlist_id)
+
+    r=requests.put(url, headers=headers)
+
+    if r.status_code == 200:
+
+        context = {'playlist_name': nombre_playlist,
+                   'playlist_id': playlist_id}
+        return render(request, 'miSpotify/add_playlist_search.html', context)
+    else:
+        return HttpResponseServerError
