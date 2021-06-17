@@ -271,12 +271,13 @@ def playlist_detail(request, playlist_id, nombre_playlist):
                                                     'album': ptrack['track']['album']['name'],
                                                     'duracion': f'{min:0>2.0f}:{sec:2.0f}',
                                                     'popularidad': ptrack['track']['popularity'],
-                                                    'link': ptrack['track']['external_urls']['spotify']})
+                                                    'link': ptrack['track']['external_urls']['spotify'],
+                                                    'track_uri': ptrack['track']['uri']})
 
 
         context = {
             'playlist_id': playlist_id, 
-            'nombre': nombre_playlist,
+            'nombre_playlist': nombre_playlist,
             'array_table_elements': songs
         }
 
@@ -322,12 +323,41 @@ def add_playlist(request):
         return render(request, 'playlists/addPlaylist.html', context)
 
 
-def delete_playlists(request, playlist_id):
-    r = request.delete('https://api.spotify.com/v1/playlists/{playlist_id}/tracks'.format(request.session['user_id']), headers=headers, json=form)
+def delete_track(request, playlist_id, nombre_playlist, track_uri):
+    
+    headers = {
+            'Authorization': 'Bearer {}'.format(request.session['access_token']),
+            'Content-Type': 'application/json',
+        }
+    
+    form = {
+        'tracks': '{"tracks": [{"' + track_uri + '"}]}'
+    }
+    {
+  "tracks": [
+    {
+      "uri": "spotify:track:2DB2zVP1LVu6jjyrvqD44z",
+      "positions": [
+        0
+      ]
+    },
+    {
+      "uri": "spotify:track:5ejwTEOCsaDEjvhZTcU6lg",
+      "positions": [
+        1
+      ]
+    }
+  ]
+}
+
+    r = requests.delete('https://api.spotify.com/v1/playlists/{'+ playlist_id +'/tracks'.format(request.session['user_id']), headers=headers, json=form)
+
+    if r.status_code == 200:
+        return redirect('playlist_detail', playlist_id, nombre_playlist)
+    else:
+        return HttpResponseServerError
 
 
-def delete_tracks(request, playlist_id):
-    r = request.delete('https://api.spotify.com/v1/playlists/{playlist_id}/tracks'.format(request.session['user_id']), headers=headers, json=form)
 
 
 def mostrar_playlists(request):

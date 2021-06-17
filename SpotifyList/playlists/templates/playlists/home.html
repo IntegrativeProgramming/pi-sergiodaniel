@@ -21,7 +21,6 @@
     <div class="divTable">
          <table class="table">
             <tr class="PlaylistHeaders" style="color:White;">
-                <th align="center">Seleccionar</td>
                 <th align="center">Nombre</td>
                 <th align="center">Dueño</td>
                 <th align="center">Canciones</td>
@@ -30,7 +29,6 @@
             </tr>
             {% for x in array_table_elements %}
                 <tr class="PlaylistRows" style="color:Lavender;">
-                    <td align="center"><input type="checkbox" name="playlist-checkbox"/></td>
                     <td class="name" align="center">
                         <a href="{% url 'playlist_detail' playlist_id=x.playlist_id nombre_playlist=x.nombre %}">{{ x.nombre }}</a>
                     </td>
@@ -45,16 +43,9 @@
          </table>
     </div>
     <div>
-
         <button id="anadirplaylist">
             <a href="{% url 'add_playlist'%}">
             Crear Playlist
         </button>
-
-        <button id="eliminarplaylist">
-            Eliminar Playlist
-        </button>
-
-
     </div>
 {% endblock %}

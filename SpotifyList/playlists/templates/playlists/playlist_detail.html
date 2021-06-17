@@ -4,7 +4,7 @@
 
 
     <div id="titulo">
-        <h2 id="title">{{ Nombre }}</h2>
+        <h2 id="title">{{ nombre_playlist }}</h2>
     </div>
 
     <div id="barrabusqueda">
@@ -21,17 +21,16 @@
     <div class="divTable">
          <table class="table">
             <tr class="PlaylistHeaders" style="color:White;">
-                <th align="center">Seleccionar</td>
                 <th align="center">Nombre</td>
                 <th align="center">Artista</td>
                 <th align="center">Album</td>
                 <th align="center">Duración</td>
                 <th align="center">Popularidad</td>
                 <th align="center">Link en Spotify</td>
+                <th align="center">Eliminar canción</td>
             </tr>
             {% for x in array_table_elements %}
                 <tr class="" style="color:Lavender;">
-                    <td align="center"><input type="checkbox" name="playlist-checkbox"/></td>
                     <td align="center">{{ x.nombre }}</td>
                     <td align="center">{{ x.artista }}</td>
                     <td align="center">{{ x.album }}</td>
@@ -39,6 +38,11 @@
                     <td align="center">{{ x.popularidad }}</td>
                     <td class="link" align="center">
                         <a id="tablelink" href={{ x.link }}>{{ x.link }}</a>
+                    </td>
+                    <td align="center">
+                        <button id="tablebutton">
+                            <a href="{% url 'delete_track' playlist_id=playlist_id track_uri=x.track_uri nombre_playlist=nombre_playlist %}">Eliminar
+                        </button>
                     </td>
                 </tr>
             {% endfor %}
