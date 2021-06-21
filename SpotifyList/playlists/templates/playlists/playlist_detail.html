@@ -9,7 +9,7 @@
 
     <div id="barrabusqueda">
         <section class="webdesigntuts-workshop">
-            <form class="flexsearch--form" method="post" action={% url "mostrar_tracks" %}>
+            <form class="flexsearch--form" method="post" action={% url "mostrar_tracks" nombre_playlist=nombre_playlist playlist_id=playlist_id %}>
                 {% csrf_token %}
                 <input type="search" name=track_name placeholder="Search song...">               
                 <button>Search</button>

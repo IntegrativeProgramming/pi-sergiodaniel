@@ -397,7 +397,7 @@ def mostrar_playlists(request):
         return redirect("home")
 
 
-def mostrar_tracks(request):
+def mostrar_tracks(request, nombre_playlist, playlist_id):
 
     if 'track_name' in request.POST:
 
@@ -414,7 +414,7 @@ def mostrar_tracks(request):
         r = requests.get('https://api.spotify.com/v1/search?' + urllib.parse.urlencode(query_string), headers=headers)
 
         if r.status_code == 200:
-            info_tracks = pd.DataFrame(r.json()['tracks']['items'], columns=['name', 'artists', 'album', 'duration_ms','popularity', 'external_urls'])          
+            info_tracks = pd.DataFrame(r.json()['tracks']['items'], columns=['name', 'artists', 'album', 'duration_ms','popularity', 'external_urls', 'uri'])          
 
             info_tracks['duration_ms'] = info_tracks['duration_ms']/1000/60
             info_tracks['duration_ms'] = info_tracks['duration_ms'].round(2)
@@ -428,10 +428,13 @@ def mostrar_tracks(request):
                                                 'album': items['album']['name'],
                                                 'duracion': items['duration_ms'],
                                                 'popularidad': items['popularity'],
-                                                'link': items['external_urls']['spotify']})
+                                                'link': items['external_urls']['spotify'],
+                                                'uri': items['uri']})
 
             context = {
                 'search_track_name': request.POST['track_name'],
+                'owned_playlist_name': nombre_playlist,
+                'playlist_id': playlist_id,
                 'array_table_elements': tracks_info
             }
 
@@ -442,7 +445,7 @@ def mostrar_tracks(request):
         return HttpResponseServerError
 
 
-def add_track(request, track_id, nombre_track, nombre_playlist):
+def add_track(request, track_id, nombre_track, nombre_playlist, playlist_id):
 
     request.session['track_name'] = nombre_track
 
@@ -450,14 +453,14 @@ def add_track(request, track_id, nombre_track, nombre_playlist):
         'Authorization': 'Bearer {}'.format(request.session['access_token'])
     }
 
-    url = 'https://api.spotify.com/v1/playlists/{}/tracks'.format(request.session['playlistId']) + "?uris=" + track_id
+    url = 'https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id) + "?uris=" + track_id
 
     r = requests.post(url, headers=headers)
 
     if r.status_code == 201:
 
         context = {'track_name': nombre_track,
-                   'playlist_id': request.session['playlist_id'],
+                   'playlist_id': playlist_id,
                    'playlist_name': nombre_playlist}
         return render(request, 'playlists/add_track_search.html', context)
     else:

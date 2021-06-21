@@ -14,7 +14,10 @@
             </tr>
             {% for x in array_table_elements %}
                 <tr class="PlaylistRows" style="color:Lavender;">
-                    <td align="center"><input type="checkbox" name="playlist-checkbox"/></td>
+                    <td align="center">                        <button id="anadirplaylist">
+            <a href="{% url 'add_searched_playlist' playlist_id=x.playlist_id nombre_playlist=x.nombre%}">
+            Guardar
+        </button></td>
                     <td class="name" align="center">
                         <a href="{% url 'playlist_detail' playlist_id=x.playlist_id nombre_playlist=x.nombre %}">{{ x.nombre }}</a>
                     </td>
@@ -26,10 +29,7 @@
                     <td align="center">{{ x.descripcion }}</td>
                 </tr>
 
-                        <button id="anadirplaylist">
-            <a href="{% url 'add_searched_playlist' playlist_id=x.playlist_id nombre_playlist=x.nombre%}">
-            Guardar Playlist
-        </button>
+
             {% endfor %}
 
 
