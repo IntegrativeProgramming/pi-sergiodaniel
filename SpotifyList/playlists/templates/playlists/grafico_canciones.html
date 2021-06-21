@@ -1,0 +1,12 @@
+{% extends "playlists/index.html" %}
+
+{% load static %}
+
+{% block content %}
+
+    <h1>5 canciones más populares</h1>
+    <div class="grafica" style="margin-top:1px">
+        <img src="{% static "grafica.png" %}" class="grafica">
+    </div>
+
+{% endblock %}

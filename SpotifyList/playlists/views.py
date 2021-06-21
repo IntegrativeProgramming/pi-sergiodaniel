@@ -13,6 +13,8 @@ import urllib.parse
 import base64
 import oauth2 as oauth
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 # Create your views here.
@@ -275,6 +277,23 @@ def playlist_detail(request, playlist_id, nombre_playlist):
                                                     'track_uri': ptrack['track']['uri']})
 
 
+        frame=pd.DataFrame(songs,columns=['nombre', 'popularidad'])
+        frame_sort= frame.sort_values('popularidad', ascending=False)
+        frame5 = frame_sort[:5]
+
+        sns.set(font_scale=4)
+
+        f, ax = plt.subplots(figsize=(50, 30))
+        f.subplots_adjust(left=0.35)
+
+        sns.barplot(x="popularidad", y="nombre", data=frame5,
+                        label="Popularidad", color="c")
+        ax.set(xlim=(0, 100),
+                xlabel="Popularidad", ylabel='Nombre de la cancion')
+
+        plt.savefig('playlists/static/grafica.png')
+
+
         context = {
             'playlist_id': playlist_id, 
             'nombre_playlist': nombre_playlist,
@@ -285,6 +304,10 @@ def playlist_detail(request, playlist_id, nombre_playlist):
     else:
         return HttpResponseForbidden
 
+
+def grafico_canciones(request):
+
+    return render(request, 'playlists/grafico_canciones.html')
 
 
 def add_playlist(request):
