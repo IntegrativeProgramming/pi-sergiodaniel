@@ -259,13 +259,14 @@ def playlist_detail(request, playlist_id, nombre_playlist):
     r = requests.get('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id), headers=headers)
 
     if r.status_code == 200:
-
+        isEmpty = False
         songs = []
         data = r.json()
 
         for items in data:
             if items == 'items':
                 for ptrack in data[items]:
+                    isEmpty = True
                     for artists in ptrack['track']['artists']:
                         artists_names = artists['name']
                     min, sec = divmod(ptrack['track']['duration_ms']/1000, 60)                   
@@ -276,28 +277,28 @@ def playlist_detail(request, playlist_id, nombre_playlist):
                                                     'link': ptrack['track']['external_urls']['spotify'],
                                                     'track_uri': ptrack['track']['uri']})
 
+        if isEmpty:
+            frame=pd.DataFrame(songs,columns=['nombre', 'popularidad'])
+            frame_sort= frame.sort_values('popularidad', ascending=False)
+            frame5 = frame_sort[:5]
 
-        frame=pd.DataFrame(songs,columns=['nombre', 'popularidad'])
-        frame_sort= frame.sort_values('popularidad', ascending=False)
-        frame5 = frame_sort[:5]
+            sns.set(font_scale=4)
 
-        sns.set(font_scale=4)
+            f, ax = plt.subplots(figsize=(50, 30))
+            f.subplots_adjust(left=0.35)
 
-        f, ax = plt.subplots(figsize=(50, 30))
-        f.subplots_adjust(left=0.35)
+            sns.barplot(x="popularidad", y="nombre", data=frame5,
+                            label="Popularidad", color="c")
+            ax.set(xlim=(0, 100),
+                    xlabel="Popularidad", ylabel='Nombre de la cancion')
 
-        sns.barplot(x="popularidad", y="nombre", data=frame5,
-                        label="Popularidad", color="c")
-        ax.set(xlim=(0, 100),
-                xlabel="Popularidad", ylabel='Nombre de la cancion')
-
-        plt.savefig('playlists/static/grafica.png')
-
+            plt.savefig('playlists/static/grafica.png')
 
         context = {
             'playlist_id': playlist_id, 
             'nombre_playlist': nombre_playlist,
-            'array_table_elements': songs
+            'array_table_elements': songs,
+            'empty_playlist': isEmpty
         }
 
         return render(request, 'playlists/playlist_detail.html', context)

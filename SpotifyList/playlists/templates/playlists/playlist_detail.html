@@ -17,6 +17,7 @@
         </section>
     </div>
 
+    {% if empty_playlist %}
 
     <div class="divTable">
          <table class="table">
@@ -48,13 +49,12 @@
             {% endfor %}
          </table>
     </div>
-    <div>
+        
+    <button id="anadirplaylist">
+        <a href="{% url 'grafico_canciones'%}">
+        Gráfica top 5 canciones
+    </button>
+    
+    {% endif %}
 
-        <button id="anadirplaylist">
-            <a href="{% url 'grafico_canciones'%}">
-            Gráfica top 5 canciones
-        </button>
-
-
-    </div>
 {% endblock %}
