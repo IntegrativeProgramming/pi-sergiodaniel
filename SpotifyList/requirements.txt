@@ -2,3 +2,7 @@ Django>=2.0,<3.0
 django-crispy-forms
 oauth2
 Pillow
+requests
+pandas
+matplotlib
+seaborn

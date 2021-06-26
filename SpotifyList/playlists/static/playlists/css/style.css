@@ -487,23 +487,26 @@ div#nav-container {
 }
 
 html, body {
-    background-image: url("../img/bg-body.jpg");
-    background-size:100%;
-    padding: 0px;
-    margin: 0px;
-    font-family: "Raleway", sans-serif;
-    height: 100%;
-    min-height: 100%;
-    margin: 0px;
-  }
+  background: linear-gradient(to right, #955DFF, #6FAAFF);
+  background-size:100%;
+  padding: 0px;
+  margin: 0px;
+  font-family: "Raleway", sans-serif;
+  height: 100%;
+  min-height: 100%;
+  margin: 0px;
+}
 
-  #footer {
-    text-align: center;
-    padding: 30px;
-    background-color: Black;
-    color: white;
-    font-size: 30px;
-  }
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 30px;
+  background-color: Black;
+  color: white;
+  font-size: 30px;
+}
 
 @import url(http://fonts.googleapis.com/css?family=Cabin:400);
 
