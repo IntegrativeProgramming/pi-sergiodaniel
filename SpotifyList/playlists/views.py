@@ -24,6 +24,10 @@ import seaborn as sns
 client_id = '2e6a6b883a174b3693a4c0a335558f30'
 client_secret = 'a2fbd32563c04123a3515c45951206ca'
 
+client_id_genius = '32rQ76BgBmmx4rvsiPpf8LstvrOQmyLJq6kCRMEM1PCqa2JRZX7z1n4WRRFuISkZ'
+client_secret_genius = '56Y-GmGryi7cTNmDf3dZj-CzvFeCaIjoY_DFljpwnVENRjYPH8NMg0IhGWRjUFWIwhS4MZ1Wh5fqspnO4e-16Q'
+
+
 redirect_uri = 'http://127.0.0.1:8000/playlists/callback'
 redirect_uri_genius = 'http://127.0.0.1:8000/playlists/callback_genius'
 redirect_uri_instagram = 'http://127.0.0.1:8000/playlists/callback_instagram'

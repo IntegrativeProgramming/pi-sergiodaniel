@@ -3,10 +3,26 @@ from django.test import Client
 from django.contrib.auth import models
 from django.contrib.auth.models import User
 from django.contrib.auth import *
+from django.utils.importlib import import_module
+from django.conf import settings
 
 from playlists.views import *
 
 import requests
+
+class PersistentSessionClient(Client):
+
+    @property
+    def session(self):
+        if not hasattr(self, "_persisted_session"):
+            engine = import_module(settings.SESSION_ENGINE)
+            self._persisted_session = engine.SessionStore("persistent")
+        return self._persisted_session
+
+
+class MyTests(TestCase):
+
+    client_class = PersistentSessionClient
 
  
 class LoginTestCase(TestCase):
