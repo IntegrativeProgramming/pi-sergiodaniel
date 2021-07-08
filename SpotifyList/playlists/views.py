@@ -519,70 +519,71 @@ def add_searched_playlist(request, playlist_id, nombre_playlist):
 
 def info_artista(request, artist_id):
 
+
     try:
-            request.session['genius_access_token']
-            geniusLogin = True
-            trackName = request.GET['trackName']
-            del request.session['aux_artistId']
-            del request.session['aux_trackName']
-        except:
-            request.session['aux_artistId'] = artistId
-            request.session['aux_trackName'] = request.GET['trackName']
-            return redirect('login_genius')
+        request.session['genius_access_token']
+        geniusLogin = True
+        trackName = request.GET['trackName']
+        del request.session['aux_artistId']
+        del request.session['aux_trackName']
+    except:
+        request.session['aux_artistId'] = artistId
+        request.session['aux_trackName'] = request.GET['trackName']
+        return redirect('login_genius')
 
-        headers = {
-            'Authorization': 'Bearer {}'.format(request.session['access_token'])
-        }
+    headers = {
+        'Authorization': 'Bearer {}'.format(request.session['access_token'])
+    }
 
-        r = requests.get(' https://api.spotify.com/v1/artists/{}'.format(artistId), headers=headers)
+    r = requests.get(' https://api.spotify.com/v1/artists/{}'.format(artistId), headers=headers)
 
-        if r.status_code == 200:
+    if r.status_code == 200:
 
-            instagram_name = None
+        instagram_name = None
 
-            array_table_elements = []
+        array_table_elements = []
 
-            data = r.json()
+        data = r.json()
 
-            array_table_elements.append({'name': data['name'], 'followers' : data['followers']['total'],
-                                         'popularity': data['popularity'], 'image': data['images'][1]['url']})
+        array_table_elements.append({'name': data['name'], 'followers' : data['followers']['total'],
+                                     'popularity': data['popularity'], 'image': data['images'][1]['url']})
 
-            if geniusLogin:
+        if geniusLogin:
 
-                query_string = {
-                    'q': trackName
-                }
+            query_string = {
+                'q': trackName
+            }
+
+            headers = {
+                'Authorization': 'Bearer {}'.format(request.session['genius_access_token'])
+            }
+
+            r = requests.get('https://api.genius.com/search?' + urllib.parse.urlencode(query_string), headers=headers)
+
+            if r.status_code == 200:
+                genius_artist_id = None
+                for result in r.json()['response']['hits']:
+                    genius_artist_id = result['result']['primary_artist']['id']
+                    break
 
                 headers = {
                     'Authorization': 'Bearer {}'.format(request.session['genius_access_token'])
                 }
 
-                r = requests.get('https://api.genius.com/search?' + urllib.parse.urlencode(query_string), headers=headers)
+                if genius_artist_id != None:
+                    r = requests.get('https://api.genius.com/artists/' + str(genius_artist_id),
+                                      headers=headers)
 
-                if r.status_code == 200:
-                    genius_artist_id = None
-                    for result in r.json()['response']['hits']:
-                        genius_artist_id = result['result']['primary_artist']['id']
-                        break
+                    if r.status_code == 200:
+                        instagram_name = r.json()['response']['artist']['instagram_name']
 
-                    headers = {
-                        'Authorization': 'Bearer {}'.format(request.session['genius_access_token'])
-                    }
+        context = {
+            'array_table_elements': array_table_elements,
+            'geniusLogin': geniusLogin,
+            'instagram_name': instagram_name,
+        }
 
-                    if genius_artist_id != None:
-                        r = requests.get('https://api.genius.com/artists/' + str(genius_artist_id),
-                                          headers=headers)
+        return render(request, 'playlists/instagram_artista.html', context)
 
-                        if r.status_code == 200:
-                            instagram_name = r.json()['response']['artist']['instagram_name']
-
-            context = {
-                'array_table_elements': array_table_elements,
-                'geniusLogin': geniusLogin,
-                'instagram_name': instagram_name,
-            }
-
-            return render(request, 'playlists/instagram_artista.html', context)
-
-        else:
-            return HttpResponseServerError
+    else:
+        return HttpResponseServerError

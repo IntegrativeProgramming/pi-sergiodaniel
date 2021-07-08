@@ -1,0 +1,40 @@
+{% extends "playlists/index.html" %}
+
+{% block content %}
+
+
+     {% for x in array_table_elements %}
+         <h1>Información de {{ x.name  }}</h1>
+
+
+        <table class="table">
+            <tr>
+                <td>
+                    <div class="info">
+                        <a class="fontStyle">Seguidores: </a><a>{{ x.followers }}</a><br>
+                        <a class="fontStyle">Popularidad: </a><a>{{ x.popularity }}</a><br>
+                    </div>
+
+                    <div class="genius">
+                        {% if geniusLogin %}
+
+                            {% if instagram_name %}
+                                 <a class="fontStyle">Nombre en Instagram: </a><a>{{ instagram_name }}</a><br>
+                            {% else %}
+                                 <a class="fontStyle">Nombre en Instagram: </a><a>Dato desconocido</a><br>
+                            {% endif %}
+
+                    </div>
+
+                </td>
+
+                <td>
+                    <div class="photo">
+                        <a><img src={{ x.image }}  class="img-fluid" alt=""></a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+     {% endfor %}
+
+{% endblock %}
