@@ -220,7 +220,7 @@ def callback_genius(request):
 
             request.session['genius_access_token'] = access_token
 
-            url = 'http://127.0.0.1:8000/miSpotify/view_artist_info/' + request.session['aux_artistId'] + '/?trackName=' + request.session['aux_trackName']
+            url = 'http://127.0.0.1:8000/playlists/info_artista/' + request.session['aux_artistId'] + '/?trackName=' + request.session['aux_trackName']
 
             return redirect(url)
 
@@ -515,3 +515,74 @@ def add_searched_playlist(request, playlist_id, nombre_playlist):
         return render(request, 'playlists/add_playlist_search.html', context)
     else:
         return HttpResponseServerError
+
+
+def info_artista(request, artist_id):
+
+    try:
+            request.session['genius_access_token']
+            geniusLogin = True
+            trackName = request.GET['trackName']
+            del request.session['aux_artistId']
+            del request.session['aux_trackName']
+        except:
+            request.session['aux_artistId'] = artistId
+            request.session['aux_trackName'] = request.GET['trackName']
+            return redirect('login_genius')
+
+        headers = {
+            'Authorization': 'Bearer {}'.format(request.session['access_token'])
+        }
+
+        r = requests.get(' https://api.spotify.com/v1/artists/{}'.format(artistId), headers=headers)
+
+        if r.status_code == 200:
+
+            instagram_name = None
+
+            array_table_elements = []
+
+            data = r.json()
+
+            array_table_elements.append({'name': data['name'], 'followers' : data['followers']['total'],
+                                         'popularity': data['popularity'], 'image': data['images'][1]['url']})
+
+            if geniusLogin:
+
+                query_string = {
+                    'q': trackName
+                }
+
+                headers = {
+                    'Authorization': 'Bearer {}'.format(request.session['genius_access_token'])
+                }
+
+                r = requests.get('https://api.genius.com/search?' + urllib.parse.urlencode(query_string), headers=headers)
+
+                if r.status_code == 200:
+                    genius_artist_id = None
+                    for result in r.json()['response']['hits']:
+                        genius_artist_id = result['result']['primary_artist']['id']
+                        break
+
+                    headers = {
+                        'Authorization': 'Bearer {}'.format(request.session['genius_access_token'])
+                    }
+
+                    if genius_artist_id != None:
+                        r = requests.get('https://api.genius.com/artists/' + str(genius_artist_id),
+                                          headers=headers)
+
+                        if r.status_code == 200:
+                            instagram_name = r.json()['response']['artist']['instagram_name']
+
+            context = {
+                'array_table_elements': array_table_elements,
+                'geniusLogin': geniusLogin,
+                'instagram_name': instagram_name,
+            }
+
+            return render(request, 'playlists/instagram_artista.html', context)
+
+        else:
+            return HttpResponseServerError

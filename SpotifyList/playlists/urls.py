@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^cerrarsesion/$', views.cerrarsesion, name='cerrarsesion'),
     url(r'^login_spotify/$', views.login_spotify, name='login_spotify'),
     url(r'^callback/$', views.callback, name='callback'),
+    url(r'^callback_genius/$', views.callback_genius, name='callback_genius'),
     url(r'^home/$', views.home, name='home'),
     url(r'^mostrar_tracks/(?P<nombre_playlist>.*)/(?P<playlist_id>.*)/$', views.mostrar_tracks, name='mostrar_tracks'),
     url(r'^mostrar_playlists/$', views.mostrar_playlists, name='mostrar_playlists'),
