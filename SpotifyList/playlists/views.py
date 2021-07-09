@@ -137,9 +137,7 @@ def callback(request):
     code = request.GET['code']
     state = request.GET['state']
     storedState = None
-
-    print(request.COOKIES)
-
+    
     if request.COOKIES:
         storedState = request.COOKIES['stateKey']
 
