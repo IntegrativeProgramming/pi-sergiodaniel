@@ -219,8 +219,8 @@ def callback_genius(request):
             access_token = r.json()['access_token']
 
             request.session['genius_access_token'] = access_token
-
-            url = 'http://127.0.0.1:8000/playlists/info_artista/' + request.session['aux_artistId'] + '/?trackName=' + request.session['aux_trackName']
+            
+            url = 'http://127.0.0.1:8000/playlists/info_artista/' + request.session['aux_artistId'] + '/?track_name=' + request.session['aux_trackName']
 
             return redirect(url)
 
@@ -275,6 +275,7 @@ def playlist_detail(request, playlist_id, nombre_playlist):
                         artists_names = artists['name']
                     min, sec = divmod(ptrack['track']['duration_ms']/1000, 60)                   
                     songs.append({'nombre': ptrack['track']['name'], 'artista': artists_names,
+                                                    'artist_id': artists['id'],
                                                     'album': ptrack['track']['album']['name'],
                                                     'duracion': f'{min:0>2.0f}:{sec:2.0f}',
                                                     'popularidad': ptrack['track']['popularity'],
@@ -517,25 +518,25 @@ def add_searched_playlist(request, playlist_id, nombre_playlist):
         return HttpResponseServerError
 
 
-def info_artista(request, artist_id):
+def info_artista(request, artist_id, track_name):
 
 
     try:
         request.session['genius_access_token']
         geniusLogin = True
-        trackName = request.GET['trackName']
+        trackName = track_name
         del request.session['aux_artistId']
         del request.session['aux_trackName']
     except:
-        request.session['aux_artistId'] = artistId
-        request.session['aux_trackName'] = request.GET['trackName']
+        request.session['aux_artistId'] = artist_id
+        request.session['aux_trackName'] = track_name
         return redirect('login_genius')
 
     headers = {
         'Authorization': 'Bearer {}'.format(request.session['access_token'])
     }
 
-    r = requests.get(' https://api.spotify.com/v1/artists/{}'.format(artistId), headers=headers)
+    r = requests.get(' https://api.spotify.com/v1/artists/{}'.format(artist_id), headers=headers)
 
     if r.status_code == 200:
 
@@ -576,6 +577,7 @@ def info_artista(request, artist_id):
 
                     if r.status_code == 200:
                         instagram_name = r.json()['response']['artist']['instagram_name']
+                        
 
         context = {
             'array_table_elements': array_table_elements,

@@ -10,31 +10,33 @@
         <table class="table">
             <tr>
                 <td>
-                    <div class="info">
+                    <div class="infoGeneral">
                         <a class="fontStyle">Seguidores: </a><a>{{ x.followers }}</a><br>
                         <a class="fontStyle">Popularidad: </a><a>{{ x.popularity }}</a><br>
                     </div>
-
-                    <div class="genius">
-                        {% if geniusLogin %}
-
+                    
+                    {% if geniusLogin %}
+                    <a class="fontStyle">Nombre en Instagram: </a><a>{{ instagram_name }}</a><br>
+                    <!--
+                        <div class="infoGenius">
                             {% if instagram_name %}
-                                 <a class="fontStyle">Nombre en Instagram: </a><a>{{ instagram_name }}</a><br>
+                                <a class="fontStyle">Nombre en Instagram: </a><a>{{ instagram_name }}</a><br>
                             {% else %}
-                                 <a class="fontStyle">Nombre en Instagram: </a><a>Dato desconocido</a><br>
+                            <a class="fontStyle">Nombre en Instagram: </a><a>Sin datos</a><br>
                             {% endif %}
-
-                    </div>
+                        </div>
+                        -->
+                    {% endif %}
 
                 </td>
 
                 <td>
-                    <div class="photo">
+                    <div class="artistImage">
                         <a><img src={{ x.image }}  class="img-fluid" alt=""></a>
                     </div>
                 </td>
+
             </tr>
         </table>
      {% endfor %}
-
 {% endblock %}
