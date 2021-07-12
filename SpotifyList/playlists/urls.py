@@ -33,6 +33,6 @@ urlpatterns = [
     url(r'^remove_track/(?P<playlist_id>[:\w]+)/(?P<track_uri>.*)/(?P<nombre_playlist>.*)/$', views.delete_track, name='delete_track'),
     url(r'^add_searched_playlist/(?P<playlist_id>[:\w]+)/(?P<nombre_playlist>.*)/$', views.add_searched_playlist, name='add_searched_playlist'),
     url(r'^grafico_canciones/$', views.grafico_canciones, name='grafico_canciones'),
-    url(r'^info_artista/(?P<artist_id>.*)/(?P<track_name>.*)/$', views.info_artista, name='info_artista'),
+    url(r'^info_artista/(?P<artist_id>\w+)/(?P<track_name>.*)/$', views.info_artista, name='info_artista'),
     url(r'^playlist_detail/(?P<playlist_id>\w+)/(?P<nombre_playlist>.*)/$', views.playlist_detail, name='playlist_detail'),
 ]
