@@ -353,38 +353,19 @@ def add_playlist(request):
 def delete_track(request, playlist_id, nombre_playlist, track_uri):
     
     headers = {
+            'Accept': 'application/json',
             'Authorization': 'Bearer {}'.format(request.session['access_token']),
             'Content-Type': 'application/json',
         }
     
-    form = {
-        'tracks': '{"tracks": [{"' + track_uri + '"}]}'
-    }
-    {
-  "tracks": [
-    {
-      "uri": "spotify:track:2DB2zVP1LVu6jjyrvqD44z",
-      "positions": [
-        0
-      ]
-    },
-    {
-      "uri": "spotify:track:5ejwTEOCsaDEjvhZTcU6lg",
-      "positions": [
-        1
-      ]
-    }
-  ]
-}
+    data = '{"tracks":[{"uri":"'+ track_uri +'","positions":[0]}]}'  
 
-    r = requests.delete('https://api.spotify.com/v1/playlists/{'+ playlist_id +'/tracks'.format(request.session['user_id']), headers=headers, json=form)
+    r = requests.delete('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id), headers=headers, data=data)
 
     if r.status_code == 200:
         return redirect('playlist_detail', playlist_id, nombre_playlist)
     else:
         return HttpResponseServerError
-
-
 
 
 def mostrar_playlists(request):
