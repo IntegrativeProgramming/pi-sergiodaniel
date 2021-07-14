@@ -1,19 +1,3 @@
-"""SpotifyList URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-
 from django.conf.urls import url
 from . import views
 
@@ -33,6 +17,6 @@ urlpatterns = [
     url(r'^remove_track/(?P<playlist_id>[:\w]+)/(?P<track_uri>.*)/(?P<nombre_playlist>.*)/$', views.delete_track, name='delete_track'),
     url(r'^add_searched_playlist/(?P<playlist_id>[:\w]+)/(?P<nombre_playlist>.*)/$', views.add_searched_playlist, name='add_searched_playlist'),
     url(r'^grafico_canciones/$', views.grafico_canciones, name='grafico_canciones'),
-    url(r'^info_artista/(?P<artist_id>\w+)/(?P<track_name>.*)/$', views.info_artista, name='info_artista'),
+    url(r'^info_artista/(?P<track_name>.*)/$', views.info_artista, name='info_artista'),
     url(r'^playlist_detail/(?P<playlist_id>\w+)/(?P<nombre_playlist>.*)/$', views.playlist_detail, name='playlist_detail'),
 ]

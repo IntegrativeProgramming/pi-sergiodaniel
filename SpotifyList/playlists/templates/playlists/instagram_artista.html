@@ -10,24 +10,12 @@
         <table class="table">
             <tr>
                 <td>
-                    <div class="infoGeneral">
-                        <a class="fontStyle">Seguidores: </a><a>{{ x.followers }}</a><br>
-                        <a class="fontStyle">Popularidad: </a><a>{{ x.popularity }}</a><br>
-                    </div>
-                    
                     {% if geniusLogin %}
-                    <a class="fontStyle">Nombre en Instagram: </a><a>{{ instagram_name }}</a><br>
-                    <!--
-                        <div class="infoGenius">
-                            {% if instagram_name %}
-                                <a class="fontStyle">Nombre en Instagram: </a><a>{{ instagram_name }}</a><br>
-                            {% else %}
-                            <a class="fontStyle">Nombre en Instagram: </a><a>Sin datos</a><br>
-                            {% endif %}
-                        </div>
-                        -->
+                        <a class="fontStyle">Seguidores: </a><a>{{ x.followers }}</a><br>
+                        <a class="fontStyle">Nombre en Facebook: </a><a>{{ x.facebook_name }}</a><br>
+                        <a class="fontStyle">Nombre en Instagram: </a><a>{{ x.instagram_name }}</a><br>
+                        <a class="fontStyle">Nombre en Twitter: </a><a>{{ x.twitter_name }}</a><br>
                     {% endif %}
-
                 </td>
 
                 <td>

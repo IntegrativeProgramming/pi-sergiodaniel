@@ -34,7 +34,7 @@
                 <tr class="" style="color:Lavender;">
                     <td align="center">{{ x.nombre }}</td>
                     <td class="link" align="center">
-                        <a id="tablelink" href="{% url 'info_artista' artist_id=x.artist_id track_name=x.nombre %}">{{ x.artista }}</a>
+                        <a id="tablelink" href="{% url 'info_artista' track_name=x.nombre %}">{{ x.artista }}</a>
                     </td>
                     <td align="center">{{ x.album }}</td>
                     <td align="center">{{ x.duracion }}</td>
