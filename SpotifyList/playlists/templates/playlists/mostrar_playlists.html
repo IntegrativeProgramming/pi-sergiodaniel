@@ -14,7 +14,7 @@
             </tr>
             {% for x in array_table_elements %}
                 <tr class="PlaylistRows" style="color:Lavender;">
-                    <td align="center">                        <button id="anadirplaylist">
+                    <td align="center">                        <button id="tablebutton">
             <a href="{% url 'add_searched_playlist' playlist_id=x.playlist_id nombre_playlist=x.nombre%}">
             Guardar
         </button></td>

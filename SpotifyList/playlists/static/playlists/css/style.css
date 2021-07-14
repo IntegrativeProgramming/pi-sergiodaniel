@@ -92,6 +92,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  height: 75px;
   background-color: black;
   justify-content: space-between;
   padding: 0.5rem 1rem;
@@ -502,12 +503,12 @@ html, body {
 #footer {
   position: relative;
   bottom: 0;
+  height: 75px;
   width: 100%;
   text-align: center;
-  padding: 30px;
   background-color: Black;
   color: white;
-  font-size: 30px;
+  font-size: 22px;
 }
 
 @import url(http://fonts.googleapis.com/css?family=Cabin:400);
@@ -735,6 +736,7 @@ html, body {
     margin: 0px;
     text-align: left;
     margin-left: 13%;
+    margin-bottom: -18%;
     color: white;
     align-items: center;
   }
@@ -752,6 +754,10 @@ html, body {
     margin-right: auto;
     background-color: rebeccapurple;
     width: 75%;
+  }
+
+  #bloquePrincipal {
+    height: auto;
   }
 
   #tablelink {
@@ -775,7 +781,7 @@ html, body {
   #barrabusqueda{
     position: relative;
     left: 60%;
-    margin-top: -14%;
+    margin-top: 12%;
   }
 
   button{
