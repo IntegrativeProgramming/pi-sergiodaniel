@@ -78,11 +78,21 @@ class TestsUsingClient(TestCase):
     #     response = c.get('/playlists/home/', {'Authorization': preparedString})
     #     self.assertEquals(response.status_code, 200)   
 
+
+
+# PROBLEMA HTML BOTON???
+
     # def test_mostrar_tracks(self): 404
     #     c = Client()
     #     response = c.post('/playlists/mostrar_tracks/',{'track_name':'hola', 'nombre_playlist':'Rap Caviar' 
     #         ,'playlist_id':'47RwPX4akLGe6OqyGpcWMd'})
     #     self.assertEquals(response.status_code, 302)
+
+    # def test_add_searched_playlist(self):
+    #     c = Client()
+    #     response_get = c.get('/playlists/add_searched_playlist/', 
+    #         {'playlist_id':'2DiQ9JVYVSrJZVETtTLRpb', 'nombre_playlist':'ADISTA'})
+    #     self.assertEquals(response_get.status_code, 200)
 
     def test_add_playlist(self):
         client_id = '2e6a6b883a174b3693a4c0a335558f30'
@@ -91,7 +101,6 @@ class TestsUsingClient(TestCase):
         preparedString = base64.b64encode(auxString.encode()).decode()
 
         c = Client()
-
         response_get = c.get('/playlists/add_playlist/')
         self.assertEquals(response_get.status_code, 200)
         # response = c.post('/playlists/add_playlist/',
@@ -99,12 +108,6 @@ class TestsUsingClient(TestCase):
         #     'playlist_type':'public'}, {'Authorization': preparedString},
         #     HTTP_ACCEPT='application/json')
         # self.assertEquals(response.status_code, 302)
-
-    # def test_add_searched_playlist(self):
-    #     c = Client()
-    #     response_get = c.get('/playlists/add_searched_playlist/', 
-    #         {'playlist_id':'2DiQ9JVYVSrJZVETtTLRpb', 'nombre_playlist':'ADISTA'})
-    #     self.assertEquals(response_get.status_code, 200)
 
 
     # def test_playlist_detail(self):
