@@ -350,7 +350,7 @@ def add_playlist(request):
         return render(request, 'playlists/addPlaylist.html', context)
 
 
-def delete_track(request, playlist_id, nombre_playlist, track_uri):
+def delete_track(request, playlist_id, track_uri, nombre_playlist):
     
     headers = {
             'Accept': 'application/json',

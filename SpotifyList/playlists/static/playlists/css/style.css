@@ -900,6 +900,16 @@ html, body {
     color: white;
     background-color: rebeccapurple;
   }
+
+  .imgbox {
+    display: grid;
+    height: 100%;
+}
+  .center-fit {
+    max-width: 100%;
+    max-height: 100vh;
+    margin: auto;
+}
   
   input[type=radio] {
     display: none;
