@@ -376,6 +376,40 @@ def delete_track(request, playlist_id, track_uri, nombre_playlist):
         return HttpResponseServerError
 
 
+def empty_playlist(request, playlist_id):
+    
+    headers = {
+            'Authorization': 'Bearer {}'.format(request.session['access_token'])
+        }
+
+    r = requests.get('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id), headers=headers)
+
+    if r.status_code == 200:
+
+        response = r.json()
+        i = 0
+        data = '{"tracks":['
+
+        headers = {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer {}'.format(request.session['access_token']),
+                'Content-Type': 'application/json',
+            }
+        for items in response:
+            if items == 'items':
+                for song in response[items]:
+                    data = data +'{"uri":"'+ song['track']['uri'] +'","positions":['+ str(i) +']}'
+                    i = i+1  
+        data = data + ']}'
+
+        r = requests.delete('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id), headers=headers, data=data)
+
+        if r.status_code == 200:
+            return redirect('home')
+        else:
+            return HttpResponseServerError
+
+
 def mostrar_playlists(request):
 
     if 'nombre_playlist' in request.POST and request.POST['nombre_playlist'] != "":
