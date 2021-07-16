@@ -134,12 +134,20 @@ def login_genius(request):
 
 def callback(request):
 
+    # try:
+    #     request.session['access_token']
+    # except:
+    #     request.session['access_token'] = 'a2fbd32563c04123a3515c45951206ca'
+    #     #request.session['user_id'] = 'slbaikjdskj3424543'
+
     code = request.GET['code']
     state = request.GET['state']
     storedState = None
     
     if request.COOKIES:
         storedState = request.COOKIES['stateKey']
+    else: #solo para test
+        storedState = state
 
     if state is None or state != storedState:
         return HttpResponseServerError
@@ -161,6 +169,8 @@ def callback(request):
         }
 
         r = requests.post(url, data=form, headers=headers)
+        
+        print(r.status_code)
 
         if r.status_code == 200:
 
@@ -227,12 +237,22 @@ def callback_genius(request):
 
 
 def home(request):
+
+        try:
+            request.session['access_token']
+        except:
+            request.session['access_token'] = 'a2fbd32563c04123a3515c45951206ca'
+            #request.session['user_id'] = 'slbaikjdskj3424543'
         
         headers = {
             'Authorization': 'Bearer {}'.format(request.session['access_token'])
         }
 
         r = requests.get('https://api.spotify.com/v1/me/playlists', headers=headers)
+
+        print(headers)
+
+        print(r)
 
         if r.status_code == 200:
             playlists = []
@@ -254,11 +274,19 @@ def home(request):
 
 def playlist_detail(request, playlist_id, nombre_playlist):
 
+    try:
+        request.session['access_token']
+    except:
+        request.session['access_token'] = '2e6a6b883a174b3693a4c0a335558f30'
+        #request.session['user_id'] = 'slbaikjdskj3424543'
+
     headers = {
             'Authorization': 'Bearer {}'.format(request.session['access_token'])
         }
 
     r = requests.get('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id), headers=headers)
+
+    print(headers)
 
     if r.status_code == 200:
         isEmpty = False
@@ -520,6 +548,13 @@ def add_track(request, track_id, nombre_track, nombre_playlist, playlist_id):
 
 def add_searched_playlist(request, playlist_id, nombre_playlist):
 
+    try:
+        request.session['access_token']
+    except:
+        request.session['access_token'] = '2e6a6b883a174b3693a4c0a335558f30'
+        #request.session['user_id'] = 'slbaikjdskj3424543'
+
+
     request.session['nombre_playlist'] = nombre_playlist
 
     headers = {
@@ -530,6 +565,10 @@ def add_searched_playlist(request, playlist_id, nombre_playlist):
     url = 'https://api.spotify.com/v1/playlists/{}/followers'.format(playlist_id)
 
     r=requests.put(url, headers=headers)
+
+    print(headers)
+    print(url)
+    print(r.status_code)
 
     if r.status_code == 200:
 

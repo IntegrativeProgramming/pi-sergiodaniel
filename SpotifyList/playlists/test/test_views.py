@@ -39,13 +39,6 @@ class TestsUsingClient(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(username='test', password='12test12')
         self.user.save()
-        # settings.SESSION_ENGINE = 'django.contrib.sessions.backends.file'
-        # engine = import_module(settings.SESSION_ENGINE)
-        # store = engine.SessionStore()
-        # store.save()
-        # self.session = store
-        # self.client.cookies[settings.SESSION_COOKIE_NAME] = store.session_key
-
 
     def test_login(self):
         c = Client()
@@ -74,51 +67,22 @@ class TestsUsingClient(TestCase):
         response = c.get('/playlists/mostrar_playlists/')
         self.assertEquals(response.status_code, 302)
 
-    # def test_callback(self): FALLO HEADERS , FALTA UNO
-    #     c = Client()
-    #     response = c.get('/playlists/callback/',{'code':'safsadgfdsfagd', 'state':'sjfvhasdasfd'},{'header':'Basic kljxzbvds'})
-    #     self.assertEquals(response.status_code, 302)
-
-    # callback_genius
-
-    # def test_home(self):
-    #     c = Client()
-    #     response = c.get('/playlists/home/')
-    #     self.assertEquals(response.status_code, 200)   
-
-
-
-# PROBLEMA HTML BOTON???
-
-    # def test_mostrar_tracks(self): 404
-    #     c = Client()
-    #     response = c.post('/playlists/mostrar_tracks/',{'track_name':'hola', 'nombre_playlist':'Rap Caviar' 
-    #         ,'playlist_id':'47RwPX4akLGe6OqyGpcWMd'})
-    #     self.assertEquals(response.status_code, 302)
-
-    # def test_add_searched_playlist(self):
-    #     c = Client()
-    #     response_get = c.post('/playlists/add_searched_playlist/', 
-    #         {'playlist_id':'2DiQ9JVYVSrJZVETtTLRpb', 'nombre_playlist':'ADISTA'})
-    #     self.assertEquals(response_get.status_code, 200)
-
     def test_add_playlist(self):
-
         c = Client()
-
         response_get = c.get('/playlists/add_playlist/')
         self.assertEquals(response_get.status_code, 200)
 
         response = c.post('/playlists/add_playlist/',
         {'name': 'playlistTEST', 'public': False, 'description': 'wakanda'}
         , HTTP_ACCEPT='application/json')
-
         self.assertEquals(response.status_code, 200)
 
 
-    # def test_playlist_detail(self):
+# PROBLEMA HTML BOTON???
+
+    # def test_mostrar_tracks(self):
     #     c = Client()
-    #     response = c.get('/playlists/playlist_detail/2DiQ9JVYVSrJZVETtTLRpb/ADISTA/' )
+    #     response = c.post('/playlists/mostrar_tracks/ADISTA/2DiQ9JVYVSrJZVETtTLRpb/')
     #     self.assertEquals(response.status_code, 302)
 
 
@@ -126,3 +90,30 @@ class TestsUsingClient(TestCase):
     #     c = Client()
     #     response = c.get('/playlists/info_artista/', {'track_name': 'hola'})
     #     self.assertEquals(response.status_code, 200)
+
+
+
+####### 401
+
+    # def test_add_searched_playlist(self):
+    #     c = Client()
+    #     response_get = c.post('/playlists/add_searched_playlist/5Xkw0sFd5Y89K7kfrusZsf/Hola%20Beats%20Lofi/'
+    #     , HTTP_ACCEPT='application/json')
+    #     self.assertEquals(response_get.status_code, 200)
+
+
+    # def test_playlist_detail(self): 
+    #     c = Client()
+    #     response = c.get('/playlists/playlist_detail/2DiQ9JVYVSrJZVETtTLRpb/ADISTA/')
+    #     self.assertEquals(response.status_code, 302)
+
+
+####### 400
+
+    # def test_callback(self):
+    #     c = Client()
+    #     response = c.get('/playlists/callback/',{'code': 'safsadgfdsfagd', 
+    #         'redirect_uri': 'http://127.0.0.1:8000/playlists/callback',
+    #         'grant_type': 'authorization_code', 'state':'dhjdsavfhj'}
+    #         , HTTP_ACCEPT='application/json')
+    #     self.assertEquals(response.status_code, 302)
