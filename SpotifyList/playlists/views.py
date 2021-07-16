@@ -317,11 +317,11 @@ def grafico_canciones(request):
 def add_playlist(request):
 
 
-    # try:
-    #     request.session['access_token']
-    # except:
-    #     request.session['access_token'] = 'a2fbd32563c04123a3515c45951206ca'
-    #     request.session['user_id'] = 'abc123'
+    try:
+        request.session['access_token']
+    except:
+        request.session['access_token'] = 'a2fbd32563c04123a3515c45951206ca'
+        request.session['user_id'] = 'slbaikjdskj3424543'
 
 
     if 'playlist_name' in request.POST:
@@ -344,6 +344,7 @@ def add_playlist(request):
             'Authorization': 'Bearer {}'.format(request.session['access_token']),
             'Content-Type': 'application/json'
         }
+
 
         r = requests.post('https://api.spotify.com/v1/users/{}/playlists'.format(request.session['user_id']), headers=headers, json=form)
 
