@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.test import Client
+from importlib import import_module
 
 
 from django.contrib.auth import models
@@ -38,6 +39,13 @@ class TestsUsingClient(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(username='test', password='12test12')
         self.user.save()
+        settings.SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+        engine = import_module(settings.SESSION_ENGINE)
+        store = engine.SessionStore()
+        store.save()
+        self.session = store
+        self.client.cookies[settings.SESSION_COOKIE_NAME] = store.session_key
+
 
     def test_login(self):
         c = Client()
@@ -75,7 +83,7 @@ class TestsUsingClient(TestCase):
 
     # def test_home(self):
     #     c = Client()
-    #     response = c.get('/playlists/home/', {'Authorization': preparedString})
+    #     response = c.get('/playlists/home/')
     #     self.assertEquals(response.status_code, 200)   
 
 
@@ -90,24 +98,29 @@ class TestsUsingClient(TestCase):
 
     # def test_add_searched_playlist(self):
     #     c = Client()
-    #     response_get = c.get('/playlists/add_searched_playlist/', 
+    #     response_get = c.post('/playlists/add_searched_playlist/', 
     #         {'playlist_id':'2DiQ9JVYVSrJZVETtTLRpb', 'nombre_playlist':'ADISTA'})
     #     self.assertEquals(response_get.status_code, 200)
 
     def test_add_playlist(self):
+
         client_id = '2e6a6b883a174b3693a4c0a335558f30'
         client_secret = 'a2fbd32563c04123a3515c45951206ca'
         auxString = '{}:{}'.format(client_id, client_secret)
-        preparedString = base64.b64encode(auxString.encode()).decode()
 
         c = Client()
+
+        session = self.session
+        session['access_token'] = 'Bearer {}'.format(client_secret)
+        session.save()
+
         response_get = c.get('/playlists/add_playlist/')
         self.assertEquals(response_get.status_code, 200)
-        # response = c.post('/playlists/add_playlist/',
-        #     {'playlist_name':'playlistTEST','playlist_description':'wakanda', 
-        #     'playlist_type':'public'}, {'Authorization': preparedString},
-        #     HTTP_ACCEPT='application/json')
-        # self.assertEquals(response.status_code, 302)
+
+        response = c.post('/playlists/add_playlist/',
+            {'playlist_name':'playlistTEST','playlist_description':'wakanda', 
+            'playlist_type':'public'}, HTTP_ACCEPT='application/json')
+        self.assertEquals(response.status_code, 302)
 
 
     # def test_playlist_detail(self):

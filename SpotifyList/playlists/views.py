@@ -316,6 +316,14 @@ def grafico_canciones(request):
 
 def add_playlist(request):
 
+
+    # try:
+    #     request.session['access_token']
+    # except:
+    #     request.session['access_token'] = 'a2fbd32563c04123a3515c45951206ca'
+    #     request.session['user_id'] = 'abc123'
+
+
     if 'playlist_name' in request.POST:
         playlist_name = request.POST['playlist_name']
         playlist_description = request.POST['playlist_description']
