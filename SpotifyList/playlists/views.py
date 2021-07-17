@@ -408,9 +408,9 @@ def empty_playlist(request, playlist_id):
     headers = {
             'Authorization': 'Bearer {}'.format(request.session['access_token'])
         }
-
+    print(headers)
     r = requests.get('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id), headers=headers)
-
+    print("I survived the get")
     if r.status_code == 200:
 
         response = r.json()
@@ -425,9 +425,12 @@ def empty_playlist(request, playlist_id):
         for items in response:
             if items == 'items':
                 for song in response[items]:
-                    data = data +'{"uri":"'+ song['track']['uri'] +'","positions":['+ str(i) +']}'
-                    i = i+1  
-        data = data + ']}'
+                    data = data +'{"uri":"'+ song['track']['uri'] +'","positions":['+ str(i) +']},'
+                    i = i+1
+          
+        data = data[:-1] + ']}'
+
+        print(data)
 
         r = requests.delete('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id), headers=headers, data=data)
 
