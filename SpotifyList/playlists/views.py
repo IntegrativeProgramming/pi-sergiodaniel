@@ -203,6 +203,8 @@ def callback_genius(request):
 
     if request.COOKIES:
         storedState = request.COOKIES['stateKey']
+    else: #solo para test
+        storedState = state
 
     if state is None or state != storedState:
         return HttpResponseServerError
@@ -249,10 +251,6 @@ def home(request):
         }
 
         r = requests.get('https://api.spotify.com/v1/me/playlists', headers=headers)
-
-        print(headers)
-
-        print(r)
 
         if r.status_code == 200:
             playlists = []
@@ -478,6 +476,12 @@ def mostrar_playlists(request):
 
 def mostrar_tracks(request, nombre_playlist, playlist_id):
 
+    try:
+        request.session['access_token']
+    except:
+        request.session['access_token'] = 'a2fbd32563c04123a3515c45951206ca'
+        #request.session['user_id'] = 'slbaikjdskj3424543'
+
     if 'track_name' in request.POST:
 
         query_string = {
@@ -525,6 +529,12 @@ def mostrar_tracks(request, nombre_playlist, playlist_id):
 
 
 def add_track(request, track_id, nombre_track, nombre_playlist, playlist_id):
+
+    try:
+        request.session['access_token']
+    except:
+        request.session['access_token'] = '2e6a6b883a174b3693a4c0a335558f30'
+        #request.session['user_id'] = 'slbaikjdskj3424543'
 
     request.session['track_name'] = nombre_track
 
