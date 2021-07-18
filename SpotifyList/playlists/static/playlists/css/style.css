@@ -785,6 +785,16 @@ html, body {
     margin-top: 12%;
   }
 
+  #addPlaylistForm{
+    position: absolute;
+    top: 25%;
+    left: 30%;
+    width: 75%;
+    height: 70%;
+    display: flex;
+    margin: 40px auto;  
+  }
+
   button{
     margin-top: 2%;
     margin-bottom: 5%;

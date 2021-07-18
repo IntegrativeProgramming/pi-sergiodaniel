@@ -2,14 +2,18 @@
 
 {% block content %}
 
-    <h2>Crea tu propia playlist</h2>
+    <h2 id="titulo">Crea tu propia playlist</h2>
 
     <div class="tab-content">
-    <div class="container">
-        <div role="tabpanel" class="tab-pane active" id="addPlayListTab">
-            <p>{% load crispy_forms_tags %} {% crispy add_playlist_form add_playlist_form.helper %}</p>
-        </div>
-    </div>    
+        <div id="addPlaylistForm" class="container">
+            <div class="pages">
+                <div class="page">
+                <div role="tabpanel" class="tab-pane active" id="addPlayListTab">
+                    <p>{% load crispy_forms_tags %} {% crispy add_playlist_form add_playlist_form.helper %}</p>
+                </div>
+                </div>
+            </div>
+        </div>    
     </div>
 
 {% endblock %}
