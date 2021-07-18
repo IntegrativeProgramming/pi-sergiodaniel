@@ -13,26 +13,26 @@ from playlists.views import *
 
 import requests
  
-# class LoginTestCase(TestCase):
+class LoginTestCase(TestCase):
         
-#     def setUp(self):
-#         self.user = get_user_model().objects.create_user(username='test', password='12test12')
-#         self.user.save()
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(username='test', password='12test12')
+        self.user.save()
  
-#     def tearDown(self):
-#         self.user.delete()
+    def tearDown(self):
+        self.user.delete()
  
-#     def test_login_correct(self):
-#         user = authenticate(username='test', password='12test12')
-#         self.assertTrue((user is not None) and user.is_authenticated)
+    def test_login_correct(self):
+        user = authenticate(username='test', password='12test12')
+        self.assertTrue((user is not None) and user.is_authenticated)
  
-#     def test_login_wrong_username(self):
-#         user = authenticate(username='wrong', password='12test12')
-#         self.assertFalse(user is not None and user.is_authenticated)
+    def test_login_wrong_username(self):
+        user = authenticate(username='wrong', password='12test12')
+        self.assertFalse(user is not None and user.is_authenticated)
  
-#     def test_login_wrong_pssword(self):
-#         user = authenticate(username='test', password='wrong')
-#         self.assertFalse(user is not None and user.is_authenticated)
+    def test_login_wrong_pssword(self):
+        user = authenticate(username='test', password='wrong')
+        self.assertFalse(user is not None and user.is_authenticated)
 
 class TestsUsingClient(TestCase):
 
@@ -124,8 +124,6 @@ class TestsUsingClient(TestCase):
         response = c.post('/playlists/add_track/spotify:track:5stPVcRqb4qixbafP9e8lt/Hola%20-%20Remix/LISTAPRUEBA/0xhV8HI4y5mLhiOmt1ponD/')
         self.assertEquals(response.status_code, 302)
 
-
-####### 400
 
     def test_callback(self):
         c = Client()
