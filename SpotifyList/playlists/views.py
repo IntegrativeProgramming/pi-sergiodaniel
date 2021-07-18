@@ -170,8 +170,6 @@ def callback(request):
 
         r = requests.post(url, data=form, headers=headers)
         
-        print(r.status_code)
-
         if r.status_code == 200:
 
             access_token = r.json()['access_token']
@@ -283,8 +281,6 @@ def playlist_detail(request, playlist_id, nombre_playlist):
         }
 
     r = requests.get('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id), headers=headers)
-
-    print(headers)
 
     if r.status_code == 200:
         isEmpty = False
@@ -408,9 +404,9 @@ def empty_playlist(request, playlist_id):
     headers = {
             'Authorization': 'Bearer {}'.format(request.session['access_token'])
         }
-    print(headers)
+
     r = requests.get('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id), headers=headers)
-    print("I survived the get")
+
     if r.status_code == 200:
 
         response = r.json()
@@ -429,8 +425,6 @@ def empty_playlist(request, playlist_id):
                     i = i+1
           
         data = data[:-1] + ']}'
-
-        print(data)
 
         r = requests.delete('https://api.spotify.com/v1/playlists/{}/tracks'.format(playlist_id), headers=headers, data=data)
 
@@ -578,10 +572,6 @@ def add_searched_playlist(request, playlist_id, nombre_playlist):
     url = 'https://api.spotify.com/v1/playlists/{}/followers'.format(playlist_id)
 
     r=requests.put(url, headers=headers)
-
-    print(headers)
-    print(url)
-    print(r.status_code)
 
     if r.status_code == 200:
 
